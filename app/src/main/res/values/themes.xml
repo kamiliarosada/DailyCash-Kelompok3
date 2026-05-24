@@ -1,0 +1,13 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.DailyCash" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/primary_brown</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/primary_light_brown</item>
+        <item name="android:windowBackground">@color/cream_bg</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="android:statusBarColor">@color/primary_brown</item>
+    </style>
+
+    <style name="Theme.DailyCash" parent="Base.Theme.DailyCash" />
+</resources>

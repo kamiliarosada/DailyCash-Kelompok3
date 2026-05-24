@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "197375700679",
+    "project_id": "daily-cash-84b25",
+    "storage_bucket": "daily-cash-84b25.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:197375700679:android:26fbe9abc6e45cb6e618e2",
+        "android_client_info": {
+          "package_name": "com.example.dailycash"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGiIvBp7YrXSXkJlAAi03TMpxOCnrjVdQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

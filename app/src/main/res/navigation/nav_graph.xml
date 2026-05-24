@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/navigation_dashboard">
+
+    <fragment
+        android:id="@+id/navigation_dashboard"
+        android:name="com.example.dailycash.ui.dashboard.DashboardFragment"
+        android:label="Dashboard"
+        tools:layout="@layout/fragment_dashboard" />
+
+    <fragment
+        android:id="@+id/navigation_transactions"
+        android:name="com.example.dailycash.ui.transaction.TransactionFragment"
+        android:label="Transactions"
+        tools:layout="@layout/fragment_transaction" />
+
+    <fragment
+        android:id="@+id/navigation_fixed_expenses"
+        android:name="com.example.dailycash.ui.fixedexpense.FixedExpenseFragment"
+        android:label="Fixed Expenses"
+        tools:layout="@layout/fragment_fixed_expense" />
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.example.dailycash.ui.profile.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile" />
+</navigation>

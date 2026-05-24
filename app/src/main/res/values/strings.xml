@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">DailyCash</string>
+    <string name="action_settings">Pengaturan</string>
+    <string name="first_fragment_label">Fragmen Pertama</string>
+    <string name="second_fragment_label">Fragmen Kedua</string>
+    <string name="next">Lanjut</string>
+    <string name="previous">Kembali</string>
+
+    <string name="login_title">Masuk ke DailyCash</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Kata Sandi</string>
+    <string name="login_button">Masuk</string>
+    <string name="to_register">Belum punya akun? Daftar di sini</string>
+
+    <string name="register_title">Daftar Akun Baru</string>
+    <string name="register_button">Daftar</string>
+
+    <string name="income">Pemasukan</string>
+    <string name="expense">Pengeluaran</string>
+    <string name="save">Simpan</string>
+    <string name="cancel">Batal</string>
+    <string name="edit">Ubah</string>
+    <string name="delete">Hapus</string>
+
+    <string name="add_transaction">Tambah Transaksi</string>
+    <string name="edit_transaction">Ubah Transaksi</string>
+    <string name="delete_confirmation">Apakah Anda yakin ingin menghapus data ini?</string>
+
+    <string name="lorem_ipsum">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem.
+    </string>
+</resources>
