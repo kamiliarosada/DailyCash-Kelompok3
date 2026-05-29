@@ -1,5 +1,6 @@
 package com.example.dailycash.ui.transaction
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dailycash.data.local.entity.TransactionEntity
 import com.example.dailycash.databinding.FragmentTransactionBinding
@@ -16,8 +18,8 @@ import com.google.firebase.auth.FirebaseAuth
 
 import androidx.appcompat.app.AlertDialog
 import com.example.dailycash.databinding.DialogAddTransactionBinding
-
-import com.example.dailycash.databinding.DialogCategoryPickerBinding
+import java.text.SimpleDateFormat
+import java.util.*
 
 class TransactionFragment : Fragment() {
 
@@ -26,6 +28,10 @@ class TransactionFragment : Fragment() {
     private val viewModel: CashViewModel by viewModels()
     private val auth = FirebaseAuth.getInstance()
     private lateinit var adapter: TransactionAdapter
+    private val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+
+    private val currentTransactions = MutableLiveData<List<TransactionEntity>>()
+    private var activeFilterLiveData: androidx.lifecycle.LiveData<List<TransactionEntity>>? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentTransactionBinding.inflate(inflater, container, false)
@@ -38,12 +44,15 @@ class TransactionFragment : Fragment() {
         val userId = auth.currentUser?.uid ?: ""
         setupRecyclerView(userId)
         setupCategoryClickListeners(userId)
+        setupFilterListeners(userId)
+
+        currentTransactions.observe(viewLifecycleOwner) { transactions ->
+            adapter.updateData(transactions ?: emptyList())
+            updateSummary(transactions ?: emptyList())
+        }
 
         viewModel.syncTransactions(userId)
-
-        viewModel.getAllTransactions(userId).observe(viewLifecycleOwner) { transactions ->
-            adapter.updateData(transactions)
-        }
+        loadTransactions(userId, "Semua")
     }
 
     private fun setupRecyclerView(userId: String) {
@@ -81,9 +90,101 @@ class TransactionFragment : Fragment() {
         binding.catOthers.setOnClickListener(listener)
     }
 
+    private fun setupFilterListeners(userId: String) {
+        binding.chipGroupFilter.setOnCheckedStateChangeListener { _, checkedIds ->
+            if (checkedIds.isNotEmpty()) {
+                val period = when(checkedIds[0]) {
+                    binding.chipDaily.id -> "Harian"
+                    binding.chipWeekly.id -> "Mingguan"
+                    binding.chipMonthly.id -> "Bulanan"
+                    binding.chipYearly.id -> "Tahunan"
+                    binding.chipCustomDate.id -> "Pilih Tanggal"
+                    else -> "Semua"
+                }
+                
+                if (period == "Pilih Tanggal") {
+                    showDatePickerFilter(userId)
+                } else {
+                    loadTransactions(userId, period)
+                }
+            }
+        }
+    }
+
+    private fun showDatePickerFilter(userId: String) {
+        val calendar = Calendar.getInstance()
+        DatePickerDialog(requireContext(), { _, year, month, day ->
+            calendar.set(year, month, day)
+            calendar.set(Calendar.HOUR_OF_DAY, 0)
+            calendar.set(Calendar.MINUTE, 0)
+            calendar.set(Calendar.SECOND, 0)
+            val start = calendar.timeInMillis
+            calendar.set(Calendar.HOUR_OF_DAY, 23)
+            calendar.set(Calendar.MINUTE, 59)
+            calendar.set(Calendar.SECOND, 59)
+            val end = calendar.timeInMillis
+            
+            binding.tvPeriodTitle.text = "Filter: ${dateFormat.format(calendar.time)}"
+            switchTransactionSource(viewModel.getTransactionsByDateRange(userId, start, end))
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
+    }
+
+    private fun loadTransactions(userId: String, period: String) {
+        val calendar = Calendar.getInstance()
+        val end = calendar.timeInMillis
+        
+        when(period) {
+            "Semua" -> {
+                binding.tvPeriodTitle.text = "Semua Transaksi"
+                switchTransactionSource(viewModel.getAllTransactions(userId))
+            }
+            "Harian" -> {
+                calendar.set(Calendar.HOUR_OF_DAY, 0)
+                calendar.set(Calendar.MINUTE, 0)
+                calendar.set(Calendar.SECOND, 0)
+                binding.tvPeriodTitle.text = "Hari Ini"
+                switchTransactionSource(viewModel.getTransactionsByDateRange(userId, calendar.timeInMillis, end))
+            }
+            "Mingguan" -> {
+                calendar.add(Calendar.DAY_OF_YEAR, -7)
+                binding.tvPeriodTitle.text = "7 Hari Terakhir"
+                switchTransactionSource(viewModel.getTransactionsByDateRange(userId, calendar.timeInMillis, end))
+            }
+            "Bulanan" -> {
+                calendar.set(Calendar.DAY_OF_MONTH, 1)
+                binding.tvPeriodTitle.text = "Bulan Ini"
+                switchTransactionSource(viewModel.getTransactionsByDateRange(userId, calendar.timeInMillis, end))
+            }
+            "Tahunan" -> {
+                calendar.set(Calendar.DAY_OF_YEAR, 1)
+                binding.tvPeriodTitle.text = "Tahun Ini"
+                switchTransactionSource(viewModel.getTransactionsByDateRange(userId, calendar.timeInMillis, end))
+            }
+        }
+    }
+
+    private fun switchTransactionSource(newLiveData: androidx.lifecycle.LiveData<List<TransactionEntity>>) {
+        activeFilterLiveData?.removeObservers(viewLifecycleOwner)
+        activeFilterLiveData = newLiveData
+        activeFilterLiveData?.observe(viewLifecycleOwner) {
+            currentTransactions.value = it
+        }
+    }
+
+    private fun updateSummary(transactions: List<TransactionEntity>) {
+        val income = transactions.filter { it.type == "pemasukan" }.sumOf { it.amount }
+        val expense = transactions.filter { it.type == "pengeluaran" }.sumOf { it.amount }
+        
+        binding.tvSummaryIncome.text = "Masuk: Rp $income"
+        binding.tvSummaryExpense.text = "Keluar: Rp $expense"
+    }
+
     private fun showTransactionDialog(userId: String, transaction: TransactionEntity? = null, category: String? = null) {
         val dialogBinding = DialogAddTransactionBinding.inflate(layoutInflater)
         val isEdit = transaction != null
+        var selectedDate = transaction?.date ?: System.currentTimeMillis()
+
+        dialogBinding.etDate.setText(dateFormat.format(Date(selectedDate)))
 
         if (isEdit) {
             dialogBinding.etTitle.setText(transaction?.title)
@@ -98,6 +199,16 @@ class TransactionFragment : Fragment() {
             dialogBinding.etCategory.setText(category)
         }
 
+        dialogBinding.etDate.setOnClickListener {
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = selectedDate
+            DatePickerDialog(requireContext(), { _, year, month, day ->
+                calendar.set(year, month, day)
+                selectedDate = calendar.timeInMillis
+                dialogBinding.etDate.setText(dateFormat.format(calendar.time))
+            }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
+        }
+
         AlertDialog.Builder(requireContext())
             .setTitle(if (isEdit) "Ubah Transaksi" else "Tambah Transaksi")
             .setView(dialogBinding.root)
@@ -108,26 +219,24 @@ class TransactionFragment : Fragment() {
                 val type = if (dialogBinding.rbIncome.isChecked) "pemasukan" else "pengeluaran"
 
                 if (title.isNotEmpty() && amount > 0) {
-                    val newTransaction = transaction?.copy(
+                    val updatedTransaction = transaction?.copy(
                         title = title,
                         amount = amount,
                         category = cat,
-                        type = type
+                        type = type,
+                        date = selectedDate
                     ) ?: TransactionEntity(
                         userId = userId,
                         title = title,
                         amount = amount,
                         category = cat,
                         type = type,
-                        date = System.currentTimeMillis(),
+                        date = selectedDate,
                         note = ""
                     )
 
-                    if (isEdit) {
-                        viewModel.updateTransaction(newTransaction)
-                    } else {
-                        viewModel.insertTransaction(newTransaction)
-                    }
+                    if (isEdit) viewModel.updateTransaction(updatedTransaction)
+                    else viewModel.insertTransaction(updatedTransaction)
                 } else {
                     Toast.makeText(context, "Mohon isi data dengan benar", Toast.LENGTH_SHORT).show()
                 }
@@ -138,13 +247,12 @@ class TransactionFragment : Fragment() {
 
     private fun showDeleteConfirmation(transaction: TransactionEntity) {
         AlertDialog.Builder(requireContext())
-            .setTitle("Delete Transaction")
-            .setMessage("Are you sure you want to delete this transaction?")
-            .setPositiveButton("Delete") { _, _ ->
+            .setTitle("Hapus")
+            .setMessage("Hapus transaksi ini?")
+            .setPositiveButton("Hapus") { _, _ ->
                 viewModel.deleteTransaction(transaction)
-                Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show()
             }
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton("Batal", null)
             .show()
     }
 

@@ -23,6 +23,9 @@ class CashRepository(
 
     fun getAllTransactions(userId: String) = transactionDao.getAllTransactions(userId)
 
+    fun getTransactionsByDateRange(userId: String, startDate: Long, endDate: Long) =
+        transactionDao.getTransactionsByDateRange(userId, startDate, endDate)
+
     suspend fun insertTransaction(transaction: TransactionEntity) {
         transactionDao.insertTransaction(transaction)
         backupTransactionToFirestore(transaction)
@@ -39,29 +42,41 @@ class CashRepository(
     }
 
     private fun backupTransactionToFirestore(transaction: TransactionEntity) {
+        if (transaction.userId.isEmpty()) return
         firestore.collection("users").document(transaction.userId)
-            .collection("transactions").document(transaction.id.toString())
+            .collection("transactions").document(transaction.id)
             .set(transaction)
     }
 
     private fun deleteTransactionFromFirestore(transaction: TransactionEntity) {
+        if (transaction.userId.isEmpty()) return
         firestore.collection("users").document(transaction.userId)
-            .collection("transactions").document(transaction.id.toString())
+            .collection("transactions").document(transaction.id)
             .delete()
     }
 
     suspend fun syncTransactionsFromFirestore(userId: String) {
+        if (userId.isEmpty()) return
         try {
             val snapshot = firestore.collection("users").document(userId)
                 .collection("transactions").get().await()
             val remoteTransactions = snapshot.toObjects(TransactionEntity::class.java)
-            remoteTransactions.forEach { transactionDao.insertTransaction(it) }
+            remoteTransactions.forEach { transaction ->
+                transactionDao.insertTransaction(transaction)
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
+
     fun getTotalIncome(userId: String) = transactionDao.getTotalIncome(userId)
     fun getTotalExpense(userId: String) = transactionDao.getTotalExpense(userId)
+
+    fun getIncomeByDateRange(userId: String, startDate: Long, endDate: Long) =
+        transactionDao.getIncomeByDateRange(userId, startDate, endDate)
+
+    fun getExpenseByDateRange(userId: String, startDate: Long, endDate: Long) =
+        transactionDao.getExpenseByDateRange(userId, startDate, endDate)
 
     fun getAllFixedExpenses(userId: String) = fixedExpenseDao.getAllFixedExpenses(userId)
     suspend fun insertFixedExpense(fixedExpense: FixedExpenseEntity) = fixedExpenseDao.insertFixedExpense(fixedExpense)

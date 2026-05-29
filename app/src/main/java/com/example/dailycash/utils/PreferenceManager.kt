@@ -11,6 +11,7 @@ class PreferenceManager(context: Context) {
         private const val KEY_REMEMBER_ME = "remember_me"
         private const val KEY_DARK_MODE = "dark_mode"
         private const val KEY_USER_EMAIL = "user_email"
+        private const val KEY_BALANCE_VISIBLE = "balance_visible"
     }
 
     fun setLoggedIn(isLoggedIn: Boolean) {
@@ -39,6 +40,12 @@ class PreferenceManager(context: Context) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
     }
+
+    fun setBalanceVisible(isVisible: Boolean) {
+        prefs.edit().putBoolean(KEY_BALANCE_VISIBLE, isVisible).apply()
+    }
+
+    fun isBalanceVisible(): Boolean = prefs.getBoolean(KEY_BALANCE_VISIBLE, true)
 
     fun setUserEmail(email: String) {
         prefs.edit().putString(KEY_USER_EMAIL, email).apply()

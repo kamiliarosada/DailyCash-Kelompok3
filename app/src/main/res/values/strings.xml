@@ -17,6 +17,7 @@
 
     <string name="income">Pemasukan</string>
     <string name="expense">Pengeluaran</string>
+    <string name="fixed_expense">Beban Tetap</string>
     <string name="save">Simpan</string>
     <string name="cancel">Batal</string>
     <string name="edit">Ubah</string>
@@ -25,6 +26,24 @@
     <string name="add_transaction">Tambah Transaksi</string>
     <string name="edit_transaction">Ubah Transaksi</string>
     <string name="delete_confirmation">Apakah Anda yakin ingin menghapus data ini?</string>
+
+    <!-- Format Strings -->
+    <string name="rp_format">Rp %1$s</string>
+    <string name="budget_format">Rp %1$s (%2$s)</string>
+    <string name="daily_budget_format">Rp %1$s / hari</string>
+    <string name="remaining_days_format">Sisa %1$s hari lagi</string>
+    <string name="status_format">Kondisi: %1$s</string>
+    <string name="balance_hidden">Rp *********</string>
+    <string name="quote_format">\"%1$s\"</string>
+    <string name="author_format">- %1$s</string>
+    <string name="set_budget_title">Atur Anggaran</string>
+
+    <string name="summary_income">Masuk: Rp %1$s</string>
+    <string name="summary_expense">Keluar: Rp %1$s</string>
+    <string name="filter_format">Filter: %1$s</string>
+    <string name="category_date_format">%1$s • %2$s</string>
+    <string name="income_prefix">+ Rp %1$s</string>
+    <string name="expense_prefix">- Rp %1$s</string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem.
