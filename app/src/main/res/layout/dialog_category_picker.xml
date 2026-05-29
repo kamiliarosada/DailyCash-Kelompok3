@@ -38,7 +38,7 @@
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@android:drawable/ic_menu_gallery"
+                android:src="@drawable/ic_food"
                 app:tint="@color/primary_brown"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -63,7 +63,7 @@
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@android:drawable/ic_menu_directions"
+                android:src="@drawable/ic_gas_station"
                 app:tint="@color/primary_brown"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -88,7 +88,7 @@
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@android:drawable/ic_menu_view"
+                android:src="@drawable/ic_shopping_cart"
                 app:tint="@color/primary_brown"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -114,7 +114,7 @@
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@android:drawable/ic_menu_slideshow"
+                android:src="@drawable/ic_entertainment"
                 app:tint="@color/primary_brown"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -140,7 +140,7 @@
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@android:drawable/ic_menu_compass"
+                android:src="@drawable/ic_health"
                 app:tint="@color/primary_brown"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -166,7 +166,7 @@
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@android:drawable/ic_menu_help"
+                android:src="@drawable/ic_others"
                 app:tint="@color/primary_brown"/>
             <TextView
                 android:layout_width="wrap_content"

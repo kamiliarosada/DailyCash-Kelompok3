@@ -3,27 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primary_brown">
+    android:background="@color/cream_bg">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
+        android:background="@color/primary_brown"
         app:elevation="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="32dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Pengeluaran Tetap"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textColor="#CCFFFFFF"
+                android:textSize="14sp"
+                android:letterSpacing="0.03" />
 
             <TextView
                 android:id="@+id/tvTotalFixedHeader"
@@ -32,14 +33,18 @@
                 android:text="Rp 0"
                 android:textColor="@color/white"
                 android:textSize="32sp"
-                android:textStyle="bold" />
+                android:fontFamily="sans-serif-black"
+                android:textStyle="bold"
+                android:layout_marginTop="4dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Total tagihan rutin per bulan"
+                android:text="Total tagihan rutin Anda setiap bulan"
                 android:textColor="@color/primary_light_brown"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:alpha="0.8"
+                android:layout_marginTop="4dp" />
         </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -53,7 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:padding="24dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -62,7 +67,8 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/text_main"
-                android:layout_marginBottom="12dp"/>
+                android:layout_marginBottom="16dp"
+                android:letterSpacing="0.02"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvFixedExpenses"
@@ -71,18 +77,21 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:nestedScrollingEnabled="false" />
 
-            <View android:layout_width="match_parent" android:layout_height="80dp"/>
+            <View android:layout_width="match_parent" android:layout_height="100dp"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fabAddFixedExpense"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="24dp"
-        android:src="@android:drawable/ic_input_add"
-        app:tint="@color/white"
-        app:backgroundTint="@color/primary_brown" />
+        android:text="Tambah Tagihan"
+        android:textColor="@color/white"
+        app:icon="@android:drawable/ic_input_add"
+        app:iconTint="@color/white"
+        app:backgroundTint="@color/primary_brown"
+        app:cornerRadius="20dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
