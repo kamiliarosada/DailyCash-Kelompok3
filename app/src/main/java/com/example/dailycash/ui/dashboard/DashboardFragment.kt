@@ -44,7 +44,7 @@ class DashboardFragment : Fragment() {
 
     private fun setupClickListeners() {
         binding.btnSetBudget.setOnClickListener {
-            showSetBudgetDialog(auth.currentUser?.uid ?: "")
+            showSetBudgetDialog()
         }
 
         binding.btnToggleBalance.setOnClickListener {
@@ -55,21 +55,21 @@ class DashboardFragment : Fragment() {
 
         binding.cardIncome.setOnClickListener { findNavController().navigate(R.id.navigation_transactions) }
         binding.cardExpense.setOnClickListener { findNavController().navigate(R.id.navigation_transactions) }
-        binding.cardFixed.setOnClickListener { findNavController().navigate(R.id.navigation_fixed_expenses) }
     }
 
     private fun setupObservers(userId: String) {
         viewModel.getBudget(userId).observe(viewLifecycleOwner) { budget ->
             val budgetAmount = budget?.amount ?: 0.0
             val period = budget?.period ?: "Monthly"
-            binding.tvMonthlyBudget.text = "Rp ${String.format("%,.0f", budgetAmount)} ($period)"
+            
+            binding.tvMonthlyBudget.text = getString(R.string.rp_format, String.format("%,.0f", budgetAmount))
             calculateFinance(budgetAmount, period, userId)
         }
 
         viewModel.quote.observe(viewLifecycleOwner) { quote ->
             if (quote != null) {
-                binding.tvQuote.text = "\"${quote.text}\""
-                binding.tvQuoteAuthor.text = "- ${quote.author}"
+                binding.tvQuote.text = getString(R.string.quote_format, quote.text)
+                binding.tvQuoteAuthor.text = getString(R.string.author_format, quote.author)
             }
         }
     }
@@ -78,15 +78,15 @@ class DashboardFragment : Fragment() {
         viewModel.getTotalIncome(userId).observe(viewLifecycleOwner) { income ->
             viewModel.getTotalExpense(userId).observe(viewLifecycleOwner) { expense ->
                 viewModel.getTotalFixedExpense(userId).observe(viewLifecycleOwner) { fixed ->
-                    
                     val incomeVal = income ?: 0.0
                     val expenseVal = expense ?: 0.0
                     val fixedVal = fixed ?: 0.0
                     
-                    binding.tvTotalIncome.text = "Rp ${String.format("%,.0f", incomeVal)}"
-                    binding.tvTotalExpense.text = "Rp ${String.format("%,.0f", expenseVal)}"
-                    binding.tvTotalFixed.text = "Rp ${String.format("%,.0f", fixedVal)}"
+                    binding.tvTotalIncome.text = getString(R.string.rp_format, String.format("%,.0f", incomeVal))
+                    binding.tvTotalExpense.text = getString(R.string.rp_format, String.format("%,.0f", expenseVal))
+                    binding.tvTotalFixed.text = getString(R.string.rp_format, String.format("%,.0f", fixedVal))
 
+                    // Saldo = Budget + Pemasukan - Tagihan Tetap - Pengeluaran Transaksi
                     actualBalance = budget + incomeVal - fixedVal - expenseVal
                     updateBalanceDisplay()
 
@@ -99,10 +99,12 @@ class DashboardFragment : Fragment() {
                     }
                     
                     val dailyBudget = if (remainingDays > 0) actualBalance / remainingDays else 0.0
-                    binding.tvDailyBudget.text = "Rp ${String.format("%,.0f", dailyBudget)} / hari"
-                    binding.tvRemainingDays.text = "Sisa $remainingDays hari lagi"
+                    binding.tvDailyBudget.text = getString(R.string.rp_format, String.format("%,.0f", dailyBudget))
+                    binding.tvRemainingDays.text = getString(R.string.remaining_days_desc, remainingDays.toString())
 
-                    updateStatus(actualBalance, dailyBudget)
+                    // Hitung total penggunaan budget (Pengeluaran + Tagihan Tetap)
+                    val totalSpent = expenseVal + fixedVal
+                    updateStatus(budget, totalSpent, actualBalance)
                 }
             }
         }
@@ -110,21 +112,28 @@ class DashboardFragment : Fragment() {
 
     private fun updateBalanceDisplay() {
         if (preferenceManager.isBalanceVisible()) {
-            binding.tvRemainingBalance.text = "Rp ${String.format("%,.0f", actualBalance)}"
+            binding.tvRemainingBalance.text = getString(R.string.rp_format, String.format("%,.0f", actualBalance))
             binding.btnToggleBalance.setImageResource(android.R.drawable.ic_menu_view)
         } else {
-            binding.tvRemainingBalance.text = "Rp *********"
+            binding.tvRemainingBalance.text = getString(R.string.balance_hidden)
             binding.btnToggleBalance.setImageResource(android.R.drawable.ic_menu_close_clear_cancel)
         }
     }
 
-    private fun updateStatus(sisa: Double, daily: Double) {
-        val (status, bgRes) = when {
-            sisa < 0 -> "BOROS" to R.drawable.bg_status_danger
-            sisa < (daily * 3) -> "WASPADA" to R.drawable.bg_status_warning
-            else -> "AMAN" to R.drawable.bg_status_safe
+    private fun updateStatus(budget: Double, spent: Double, sisa: Double) {
+        // Hitung persentase penggunaan dari budget yang dipatok
+        val percentage = if (budget > 0) (spent / budget) * 100 else if (spent > 0) 101.0 else 0.0
+
+        val (statusStr, bgRes) = when {
+            // BOROS: Pengeluaran > 90% budget atau saldo minus
+            sisa < 0 || percentage > 90 -> getString(R.string.status_danger) to R.drawable.bg_status_danger
+            // WASPADA: Pengeluaran 71% - 90% budget
+            percentage > 70 -> getString(R.string.status_warning) to R.drawable.bg_status_warning
+            // AMAN: Pengeluaran <= 70% budget
+            else -> getString(R.string.status_safe) to R.drawable.bg_status_safe
         }
-        binding.tvFinancialStatus.text = "Kondisi: $status"
+
+        binding.tvFinancialStatus.text = getString(R.string.financial_condition, statusStr)
         binding.tvFinancialStatus.setBackgroundResource(bgRes)
     }
 
@@ -133,12 +142,12 @@ class DashboardFragment : Fragment() {
         return calendar.getActualMaximum(Calendar.DAY_OF_MONTH) - calendar.get(Calendar.DAY_OF_MONTH) + 1
     }
 
-    private fun showSetBudgetDialog(userId: String) {
+    private fun showSetBudgetDialog() {
         val dialogBinding = DialogSetBudgetBinding.inflate(layoutInflater)
         AlertDialog.Builder(requireContext())
-            .setTitle("Atur Anggaran")
+            .setTitle(getString(R.string.set_budget_title))
             .setView(dialogBinding.root)
-            .setPositiveButton("Simpan") { _, _ ->
+            .setPositiveButton(getString(R.string.save)) { _, _ ->
                 val amount = dialogBinding.etBudgetAmount.text.toString().toDoubleOrNull() ?: 0.0
                 val period = when (dialogBinding.rgBudgetPeriod.checkedRadioButtonId) {
                     dialogBinding.rbBudgetDaily.id -> "Daily"
@@ -147,9 +156,11 @@ class DashboardFragment : Fragment() {
                     dialogBinding.rbBudgetYearly.id -> "Yearly"
                     else -> "Monthly"
                 }
-                if (amount > 0) viewModel.insertOrUpdateBudget(BudgetEntity(userId, amount, period))
+                if (amount > 0) {
+                    viewModel.insertOrUpdateBudget(BudgetEntity(auth.currentUser?.uid ?: "", amount, period))
+                }
             }
-            .setNegativeButton("Batal", null)
+            .setNegativeButton(getString(R.string.cancel), null)
             .show()
     }
 

@@ -3,12 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="20dp">
 
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Jumlah Anggaran (Rp)">
+        android:hint="@string/amount_hint">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etBudgetAmount"
             android:layout_width="match_parent"
@@ -19,18 +20,39 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Periode Anggaran:" />
+        android:layout_marginTop="20dp"
+        android:text="Pilih Periode:"
+        android:textStyle="bold"
+        android:textColor="@color/text_main"
+        android:textSize="14sp" />
 
     <RadioGroup
         android:id="@+id/rgBudgetPeriod"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:orientation="vertical">
-        <RadioButton android:id="@+id/rbBudgetDaily" android:text="Harian" android:layout_width="wrap_content" android:layout_height="wrap_content" />
-        <RadioButton android:id="@+id/rbBudgetWeekly" android:text="Mingguan" android:layout_width="wrap_content" android:layout_height="wrap_content" />
-        <RadioButton android:id="@+id/rbBudgetMonthly" android:text="Bulanan" android:checked="true" android:layout_width="wrap_content" android:layout_height="wrap_content" />
-        <RadioButton android:id="@+id/rbBudgetYearly" android:text="Tahunan" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+        <RadioButton
+            android:id="@+id/rbBudgetDaily"
+            android:text="@string/filter_daily"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:id="@+id/rbBudgetWeekly"
+            android:text="@string/filter_weekly"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:id="@+id/rbBudgetMonthly"
+            android:text="@string/filter_monthly"
+            android:checked="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:id="@+id/rbBudgetYearly"
+            android:text="@string/filter_yearly"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </RadioGroup>
 
 </LinearLayout>

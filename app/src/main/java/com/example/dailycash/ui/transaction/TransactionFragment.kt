@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.dailycash.R
 import com.example.dailycash.data.local.entity.TransactionEntity
 import com.example.dailycash.databinding.FragmentTransactionBinding
 import com.example.dailycash.ui.adapter.TransactionAdapter
@@ -124,7 +125,7 @@ class TransactionFragment : Fragment() {
             calendar.set(Calendar.SECOND, 59)
             val end = calendar.timeInMillis
             
-            binding.tvPeriodTitle.text = "Filter: ${dateFormat.format(calendar.time)}"
+            binding.tvPeriodTitle.text = getString(R.string.filter_label_prefix, dateFormat.format(calendar.time))
             switchTransactionSource(viewModel.getTransactionsByDateRange(userId, start, end))
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
     }
@@ -135,29 +136,29 @@ class TransactionFragment : Fragment() {
         
         when(period) {
             "Semua" -> {
-                binding.tvPeriodTitle.text = "Semua Transaksi"
+                binding.tvPeriodTitle.text = getString(R.string.filter_all_title)
                 switchTransactionSource(viewModel.getAllTransactions(userId))
             }
             "Harian" -> {
                 calendar.set(Calendar.HOUR_OF_DAY, 0)
                 calendar.set(Calendar.MINUTE, 0)
                 calendar.set(Calendar.SECOND, 0)
-                binding.tvPeriodTitle.text = "Hari Ini"
+                binding.tvPeriodTitle.text = getString(R.string.filter_today)
                 switchTransactionSource(viewModel.getTransactionsByDateRange(userId, calendar.timeInMillis, end))
             }
             "Mingguan" -> {
                 calendar.add(Calendar.DAY_OF_YEAR, -7)
-                binding.tvPeriodTitle.text = "7 Hari Terakhir"
+                binding.tvPeriodTitle.text = getString(R.string.filter_last_7_days)
                 switchTransactionSource(viewModel.getTransactionsByDateRange(userId, calendar.timeInMillis, end))
             }
             "Bulanan" -> {
                 calendar.set(Calendar.DAY_OF_MONTH, 1)
-                binding.tvPeriodTitle.text = "Bulan Ini"
+                binding.tvPeriodTitle.text = getString(R.string.filter_this_month)
                 switchTransactionSource(viewModel.getTransactionsByDateRange(userId, calendar.timeInMillis, end))
             }
             "Tahunan" -> {
                 calendar.set(Calendar.DAY_OF_YEAR, 1)
-                binding.tvPeriodTitle.text = "Tahun Ini"
+                binding.tvPeriodTitle.text = getString(R.string.filter_this_year)
                 switchTransactionSource(viewModel.getTransactionsByDateRange(userId, calendar.timeInMillis, end))
             }
         }
@@ -175,8 +176,8 @@ class TransactionFragment : Fragment() {
         val income = transactions.filter { it.type == "pemasukan" }.sumOf { it.amount }
         val expense = transactions.filter { it.type == "pengeluaran" }.sumOf { it.amount }
         
-        binding.tvSummaryIncome.text = "Masuk: Rp $income"
-        binding.tvSummaryExpense.text = "Keluar: Rp $expense"
+        binding.tvSummaryIncome.text = getString(R.string.summary_income, String.format("%,.0f", income))
+        binding.tvSummaryExpense.text = getString(R.string.summary_expense, String.format("%,.0f", expense))
     }
 
     private fun showTransactionDialog(userId: String, transaction: TransactionEntity? = null, category: String? = null) {
@@ -210,9 +211,9 @@ class TransactionFragment : Fragment() {
         }
 
         AlertDialog.Builder(requireContext())
-            .setTitle(if (isEdit) "Ubah Transaksi" else "Tambah Transaksi")
+            .setTitle(if (isEdit) getString(R.string.edit_transaction_title) else getString(R.string.add_transaction_title))
             .setView(dialogBinding.root)
-            .setPositiveButton("Simpan") { _, _ ->
+            .setPositiveButton(getString(R.string.save)) { _, _ ->
                 val title = dialogBinding.etTitle.text.toString()
                 val amount = dialogBinding.etAmount.text.toString().toDoubleOrNull() ?: 0.0
                 val cat = dialogBinding.etCategory.text.toString()
@@ -238,21 +239,21 @@ class TransactionFragment : Fragment() {
                     if (isEdit) viewModel.updateTransaction(updatedTransaction)
                     else viewModel.insertTransaction(updatedTransaction)
                 } else {
-                    Toast.makeText(context, "Mohon isi data dengan benar", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, getString(R.string.input_correctly), Toast.LENGTH_SHORT).show()
                 }
             }
-            .setNegativeButton("Batal", null)
+            .setNegativeButton(getString(R.string.cancel), null)
             .show()
     }
 
     private fun showDeleteConfirmation(transaction: TransactionEntity) {
         AlertDialog.Builder(requireContext())
-            .setTitle("Hapus")
-            .setMessage("Hapus transaksi ini?")
-            .setPositiveButton("Hapus") { _, _ ->
+            .setTitle(getString(R.string.delete_title))
+            .setMessage(getString(R.string.delete_confirm))
+            .setPositiveButton(getString(R.string.delete_title)) { _, _ ->
                 viewModel.deleteTransaction(transaction)
             }
-            .setNegativeButton("Batal", null)
+            .setNegativeButton(getString(R.string.cancel), null)
             .show()
     }
 
