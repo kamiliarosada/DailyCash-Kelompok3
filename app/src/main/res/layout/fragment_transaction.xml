@@ -35,7 +35,7 @@
                 android:alignmentMode="alignMargins"
                 android:columnOrderPreserved="false">
 
-                <!-- Makan -->
+                <!-- Kategori Buttons -->
                 <LinearLayout
                     android:id="@+id/cat_food"
                     android:layout_width="0dp"
@@ -60,11 +60,9 @@
                         android:text="Makan"
                         android:textSize="11sp"
                         android:layout_marginTop="6dp"
-                        android:textColor="@color/primary_brown"
-                        android:fontFamily="sans-serif-medium"/>
+                        android:textColor="@color/primary_brown"/>
                 </LinearLayout>
 
-                <!-- Bensin -->
                 <LinearLayout
                     android:id="@+id/cat_transport"
                     android:layout_width="0dp"
@@ -89,11 +87,9 @@
                         android:text="Bensin"
                         android:textSize="11sp"
                         android:layout_marginTop="6dp"
-                        android:textColor="@color/primary_brown"
-                        android:fontFamily="sans-serif-medium"/>
+                        android:textColor="@color/primary_brown"/>
                 </LinearLayout>
 
-                <!-- Belanja -->
                 <LinearLayout
                     android:id="@+id/cat_shopping"
                     android:layout_width="0dp"
@@ -118,11 +114,10 @@
                         android:text="Belanja"
                         android:textSize="11sp"
                         android:layout_marginTop="6dp"
-                        android:textColor="@color/primary_brown"
-                        android:fontFamily="sans-serif-medium"/>
+                        android:textColor="@color/primary_brown"/>
                 </LinearLayout>
 
-                <!-- Hiburan -->
+                <!-- Baris 2 -->
                 <LinearLayout
                     android:id="@+id/cat_entertainment"
                     android:layout_width="0dp"
@@ -132,7 +127,6 @@
                     android:gravity="center"
                     android:padding="12dp"
                     android:layout_margin="4dp"
-                    android:layout_marginTop="8dp"
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?attr/selectableItemBackground"
@@ -148,11 +142,9 @@
                         android:text="Hiburan"
                         android:textSize="11sp"
                         android:layout_marginTop="6dp"
-                        android:textColor="@color/primary_brown"
-                        android:fontFamily="sans-serif-medium"/>
+                        android:textColor="@color/primary_brown"/>
                 </LinearLayout>
 
-                <!-- Kesehatan -->
                 <LinearLayout
                     android:id="@+id/cat_health"
                     android:layout_width="0dp"
@@ -162,7 +154,6 @@
                     android:gravity="center"
                     android:padding="12dp"
                     android:layout_margin="4dp"
-                    android:layout_marginTop="8dp"
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?attr/selectableItemBackground"
@@ -178,11 +169,9 @@
                         android:text="Kesehatan"
                         android:textSize="11sp"
                         android:layout_marginTop="6dp"
-                        android:textColor="@color/primary_brown"
-                        android:fontFamily="sans-serif-medium"/>
+                        android:textColor="@color/primary_brown"/>
                 </LinearLayout>
 
-                <!-- Lainnya -->
                 <LinearLayout
                     android:id="@+id/cat_others"
                     android:layout_width="0dp"
@@ -192,7 +181,6 @@
                     android:gravity="center"
                     android:padding="12dp"
                     android:layout_margin="4dp"
-                    android:layout_marginTop="8dp"
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?attr/selectableItemBackground"
@@ -208,8 +196,7 @@
                         android:text="Lainnya"
                         android:textSize="11sp"
                         android:layout_marginTop="6dp"
-                        android:textColor="@color/primary_brown"
-                        android:fontFamily="sans-serif-medium"/>
+                        android:textColor="@color/primary_brown"/>
                 </LinearLayout>
             </GridLayout>
         </LinearLayout>
@@ -231,11 +218,45 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Riwayat Transaksi"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
-                android:fontFamily="sans-serif-medium"
                 android:textColor="@color/text_main"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:id="@+id/tvPeriodTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Semua Transaksi"
+                android:textSize="14sp"
+                android:textColor="@color/text_hint"
+                android:layout_marginBottom="16dp"
+                android:textStyle="italic"/>
+
+            <!-- Summary Text (Outside the box) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+                <TextView
+                    android:id="@+id/tvSummaryIncome"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Masuk: Rp 0"
+                    android:textColor="@color/income_green"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/tvSummaryExpense"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Keluar: Rp 0"
+                    android:textColor="@color/expense_red"
+                    android:textStyle="bold"
+                    android:gravity="end"/>
+            </LinearLayout>
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
@@ -247,127 +268,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:singleSelection="true"
-                    app:selectionRequired="true"
-                    app:chipSpacingHorizontal="8dp">
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipAll"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Semua"
-                        android:checked="true"
-                        app:chipBackgroundColor="@color/white"
-                        app:chipStrokeColor="@color/card_border"/>
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipDaily"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Harian" />
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipWeekly"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Mingguan" />
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipMonthly"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Bulanan" />
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipYearly"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tahunan" />
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipCustomDate"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Pilih Tanggal" />
+                    app:selectionRequired="true">
+                    <com.google.android.material.chip.Chip android:id="@+id/chipAll" style="@style/Widget.MaterialComponents.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Semua" android:checked="true" />
+                    <com.google.android.material.chip.Chip android:id="@+id/chipDaily" style="@style/Widget.MaterialComponents.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Harian" />
+                    <com.google.android.material.chip.Chip android:id="@+id/chipWeekly" style="@style/Widget.MaterialComponents.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Mingguan" />
+                    <com.google.android.material.chip.Chip android:id="@+id/chipMonthly" style="@style/Widget.MaterialComponents.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Bulanan" />
+                    <com.google.android.material.chip.Chip android:id="@+id/chipYearly" style="@style/Widget.MaterialComponents.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Tahunan" />
+                    <com.google.android.material.chip.Chip android:id="@+id/chipCustomDate" style="@style/Widget.MaterialComponents.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Pilih Tanggal" />
                 </com.google.android.material.chip.ChipGroup>
             </HorizontalScrollView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardSummary"
-                style="@style/ExtraRoundedCard"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                app:cardBackgroundColor="@color/white">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-                    <TextView
-                        android:id="@+id/tvPeriodTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Ringkasan"
-                        android:textStyle="bold"
-                        android:textSize="13sp"
-                        android:textAllCaps="true"
-                        android:letterSpacing="0.05"
-                        android:textColor="@color/text_hint"/>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="12dp">
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Pemasukan"
-                                android:textSize="11sp"
-                                android:textColor="@color/text_hint"/>
-                            <TextView
-                                android:id="@+id/tvSummaryIncome"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Rp 0"
-                                android:textStyle="bold"
-                                android:textSize="16sp"
-                                android:layout_marginTop="2dp"
-                                android:textColor="@color/income_green"/>
-                        </LinearLayout>
-                        <View
-                            android:layout_width="1dp"
-                            android:layout_height="match_parent"
-                            android:background="@color/card_border"
-                            android:layout_marginHorizontal="12dp"/>
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Pengeluaran"
-                                android:textSize="11sp"
-                                android:textColor="@color/text_hint"/>
-                            <TextView
-                                android:id="@+id/tvSummaryExpense"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Rp 0"
-                                android:textStyle="bold"
-                                android:textSize="16sp"
-                                android:layout_marginTop="2dp"
-                                android:textColor="@color/expense_red"/>
-                        </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvTransactions"

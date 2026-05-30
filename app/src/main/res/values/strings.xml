@@ -1,51 +1,102 @@
 <resources>
     <string name="app_name">DailyCash</string>
-    <string name="action_settings">Pengaturan</string>
-    <string name="first_fragment_label">Fragmen Pertama</string>
-    <string name="second_fragment_label">Fragmen Kedua</string>
-    <string name="next">Lanjut</string>
-    <string name="previous">Kembali</string>
 
-    <string name="login_title">Masuk ke DailyCash</string>
-    <string name="email_hint">Email</string>
-    <string name="password_hint">Kata Sandi</string>
-    <string name="login_button">Masuk</string>
-    <string name="to_register">Belum punya akun? Daftar di sini</string>
+    <!-- Navigasi -->
+    <string name="nav_dashboard">Beranda</string>
+    <string name="nav_history">Riwayat</string>
+    <string name="nav_fixed">Tagihan</string>
+    <string name="nav_profile">Profil</string>
 
-    <string name="register_title">Daftar Akun Baru</string>
-    <string name="register_button">Daftar</string>
+    <!-- Dashboard -->
+    <string name="my_wallet">Saldo Tersedia</string>
+    <string name="financial_condition">Kondisi: %1$s</string>
+    <string name="income_label">Pemasukan</string>
+    <string name="expense_label">Pengeluaran</string>
+    <string name="fixed_label">Beban Tetap</string>
+    <string name="budget_mgmt_title">Manajemen Anggaran</string>
+    <string name="budget_limit">Batas Anggaran</string>
+    <string name="daily_allowance">Jatah Harian</string>
+    <string name="remaining_days_desc">Sisa %1$s hari lagi</string>
+    <string name="set_budget_title">Atur Anggaran</string>
+    <string name="budget_limit_hint">Batas anggaran periode ini</string>
+    <string name="daily_allowance_hint">Jatah per hari</string>
+    <string name="motivation_title">Inspirasi Hari Ini</string>
+    <string name="motivation_loading">Memuat motivasi…</string>
+    <string name="toggle_visibility">Tampilkan/Sembunyikan Saldo</string>
 
-    <string name="income">Pemasukan</string>
-    <string name="expense">Pengeluaran</string>
-    <string name="fixed_expense">Beban Tetap</string>
+    <!-- Riwayat -->
+    <string name="history_title">Riwayat Transaksi</string>
+    <string name="transaction_history">Riwayat Transaksi</string>
+    <string name="summary_title">Ringkasan</string>
+    <string name="summary_income">Masuk: %1$s</string>
+    <string name="summary_expense">Keluar: %1$s</string>
+    <string name="filter_all">Semua</string>
+    <string name="filter_daily">Harian</string>
+    <string name="filter_weekly">Mingguan</string>
+    <string name="filter_monthly">Bulanan</string>
+    <string name="filter_yearly">Tahunan</string>
+    <string name="filter_custom">Pilih Tanggal</string>
+    <string name="select_category">Pilih Kategori</string>
+
+    <!-- Profil -->
+    <string name="account_settings">Pengaturan Akun</string>
+    <string name="premium_member">Anggota Premium</string>
+    <string name="dark_mode">Mode Gelap</string>
+    <string name="change_language">Pilih Bahasa</string>
+    <string name="logout">Keluar Akun</string>
+    <string name="lang_indo">Bahasa Indonesia</string>
+    <string name="lang_eng">English</string>
+    <string name="profile_picture_desc">Foto Profil</string>
+    <string name="app_version">Versi 1.0.4</string>
+
+    <!-- Dialogs -->
     <string name="save">Simpan</string>
     <string name="cancel">Batal</string>
-    <string name="edit">Ubah</string>
-    <string name="delete">Hapus</string>
+    <string name="add_transaction_title">Tambah Transaksi</string>
+    <string name="edit_transaction_title">Ubah Transaksi</string>
+    <string name="delete_confirm">Hapus transaksi ini?</string>
+    <string name="select_period_title">Pilih Periode Anggaran</string>
+    <string name="input_correctly">Mohon isi data dengan benar</string>
+    <string name="transaction_name_hint">Nama Transaksi (Contoh: Bakso)</string>
+    <string name="amount_hint">Jumlah (Rp)</string>
+    <string name="category_hint">Kategori</string>
+    <string name="date_hint">Tanggal</string>
 
-    <string name="add_transaction">Tambah Transaksi</string>
-    <string name="edit_transaction">Ubah Transaksi</string>
-    <string name="delete_confirmation">Apakah Anda yakin ingin menghapus data ini?</string>
+    <!-- Status -->
+    <string name="status_safe">AMAN</string>
+    <string name="status_warning">WASPADA</string>
+    <string name="status_danger">BOROS</string>
 
-    <!-- Format Strings -->
+    <!-- Format -->
     <string name="rp_format">Rp %1$s</string>
-    <string name="budget_format">Rp %1$s (%2$s)</string>
-    <string name="daily_budget_format">Rp %1$s / hari</string>
-    <string name="remaining_days_format">Sisa %1$s hari lagi</string>
-    <string name="status_format">Kondisi: %1$s</string>
-    <string name="balance_hidden">Rp *********</string>
-    <string name="quote_format">\"%1$s\"</string>
+    <string name="daily_format">Rp %1$s / hari</string>
+    <string name="balance_hidden">Rp •••••••••</string>
+    <string name="quote_format">“%1$s”</string>
     <string name="author_format">- %1$s</string>
-    <string name="set_budget_title">Atur Anggaran</string>
 
-    <string name="summary_income">Masuk: Rp %1$s</string>
-    <string name="summary_expense">Keluar: Rp %1$s</string>
-    <string name="filter_format">Filter: %1$s</string>
-    <string name="category_date_format">%1$s • %2$s</string>
-    <string name="income_prefix">+ Rp %1$s</string>
-    <string name="expense_prefix">- Rp %1$s</string>
+    <!-- Boilerplate -->
+    <string name="next">Selanjutnya</string>
+    <string name="previous">Sebelumnya</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
+    <string name="action_settings">Pengaturan</string>
 
-    <string name="lorem_ipsum">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem.
-    </string>
+    <!-- Filter Labels -->
+    <string name="filter_label_prefix">Filter: %1$s</string>
+    <string name="filter_all_title">Semua Transaksi</string>
+    <string name="filter_today">Hari Ini</string>
+    <string name="filter_last_7_days">7 Hari Terakhir</string>
+    <string name="filter_this_month">Bulan Ini</string>
+    <string name="filter_this_year">Tahun Ini</string>
+
+    <!-- Fixed Expense Specific -->
+    <string name="add_fixed_title">Tambah Pengeluaran Tetap</string>
+    <string name="edit_fixed_title">Ubah Pengeluaran Tetap</string>
+    <string name="delete_fixed_confirm">Hapus pengeluaran ini?</string>
+    <string name="delete_title">Hapus</string>
+
+    <!-- Periods -->
+    <string name="period_daily">Harian</string>
+    <string name="period_weekly">Mingguan</string>
+    <string name="period_monthly">Bulanan</string>
+    <string name="period_yearly">Tahunan</string>
 </resources>

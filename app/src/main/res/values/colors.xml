@@ -7,29 +7,29 @@
     <color name="primary_brown">#3E2723</color> <!-- Deep Espresso -->
     <color name="primary_light_brown">#A1887F</color>
     <color name="primary_dark_brown">#1B0000</color>
-    <color name="luxury_gold">#C5A059</color> <!-- Gold Accent -->
+    <color name="luxury_gold">#C5A059</color>
 
     <color name="cream_bg">#FCF9F7</color> <!-- Ultra Soft Sand -->
     <color name="cream_surface">#FFFFFF</color>
     <color name="card_border">#E8E0DD</color>
 
     <!-- Semantic Colors (Premium Soft) -->
-    <color name="income_green">#388E3C</color>
-    <color name="bg_income_card">#F0F7F0</color>
-    <color name="text_income">#2E7D32</color>
+    <color name="income_green">#27AE60</color> <!-- Emerald Green -->
+    <color name="bg_income_card">#F0F9F4</color>
+    <color name="text_income">#1E8449</color>
 
-    <color name="expense_red">#D32F2F</color>
-    <color name="bg_expense_card">#FFF5F5</color>
-    <color name="text_expense">#C62828</color>
+    <color name="expense_red">#E74C3C</color> <!-- Crimson Red -->
+    <color name="bg_expense_card">#FDEDEC</color>
+    <color name="text_expense">#B03A2E</color>
 
-    <color name="fixed_orange">#E65100</color>
-    <color name="bg_fixed_card">#FFF8F0</color>
-    <color name="text_fixed">#EF6C00</color>
+    <color name="fixed_orange">#F39C12</color>
+    <color name="bg_fixed_card">#FEF5E7</color>
+    <color name="text_fixed">#AF601A</color>
 
     <!-- Status Badge Colors -->
-    <color name="status_safe">#4CAF50</color>
-    <color name="status_warning">#FFB300</color>
-    <color name="status_danger">#F44336</color>
+    <color name="status_safe">#27AE60</color> <!-- Bright Emerald for Safe -->
+    <color name="status_warning">#F1C40F</color> <!-- Amber for Warning -->
+    <color name="status_danger">#E74C3C</color> <!-- Red for Danger -->
 
     <color name="text_main">#2D2422</color>
     <color name="text_hint">#8D7A77</color>

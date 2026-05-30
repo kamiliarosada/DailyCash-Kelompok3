@@ -1,9 +1,11 @@
 package com.example.dailycash.utils
 
 import android.content.Context
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatDelegate
+import java.util.*
 
-class PreferenceManager(context: Context) {
+class PreferenceManager(private val context: Context) {
     private val prefs = context.getSharedPreferences("DailyCashPrefs", Context.MODE_PRIVATE)
 
     companion object {
@@ -12,6 +14,7 @@ class PreferenceManager(context: Context) {
         private const val KEY_DARK_MODE = "dark_mode"
         private const val KEY_USER_EMAIL = "user_email"
         private const val KEY_BALANCE_VISIBLE = "balance_visible"
+        private const val KEY_LANGUAGE = "language"
     }
 
     fun setLoggedIn(isLoggedIn: Boolean) {
@@ -46,6 +49,21 @@ class PreferenceManager(context: Context) {
     }
 
     fun isBalanceVisible(): Boolean = prefs.getBoolean(KEY_BALANCE_VISIBLE, true)
+
+    fun setLanguage(lang: String) {
+        prefs.edit().putString(KEY_LANGUAGE, lang).apply()
+        applyLanguage(lang)
+    }
+
+    fun getLanguage(): String = prefs.getString(KEY_LANGUAGE, "in") ?: "in"
+
+    fun applyLanguage(lang: String) {
+        val locale = Locale(lang)
+        Locale.setDefault(locale)
+        val config = Configuration()
+        config.setLocale(locale)
+        context.resources.updateConfiguration(config, context.resources.displayMetrics)
+    }
 
     fun setUserEmail(email: String) {
         prefs.edit().putString(KEY_USER_EMAIL, email).apply()

@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.dailycash.R
 import com.example.dailycash.data.local.entity.FixedExpenseEntity
 import com.example.dailycash.databinding.FragmentFixedExpenseBinding
 import com.example.dailycash.ui.adapter.FixedExpenseAdapter
@@ -39,7 +40,7 @@ class FixedExpenseFragment : Fragment() {
         viewModel.getAllFixedExpenses(userId).observe(viewLifecycleOwner) { expenses ->
             adapter.updateData(expenses)
             val total = expenses.sumOf { it.amount }
-            binding.tvTotalFixedHeader.text = "Rp $total"
+            binding.tvTotalFixedHeader.text = getString(R.string.rp_format, String.format("%,.0f", total))
         }
 
         binding.fabAddFixedExpense.setOnClickListener {
@@ -67,6 +68,7 @@ class FixedExpenseFragment : Fragment() {
 
         if (isEdit) {
             dialogBinding.etName.setText(expense?.name)
+            dialogBinding.etCategory.setText(expense?.category)
             dialogBinding.etAmount.setText(expense?.amount.toString())
             when (expense?.period) {
                 "Daily" -> dialogBinding.rbDaily.isChecked = true
@@ -77,10 +79,11 @@ class FixedExpenseFragment : Fragment() {
         }
 
         AlertDialog.Builder(requireContext())
-            .setTitle(if (isEdit) "Ubah Pengeluaran Tetap" else "Tambah Pengeluaran Tetap")
+            .setTitle(if (isEdit) getString(R.string.edit_fixed_title) else getString(R.string.add_fixed_title))
             .setView(dialogBinding.root)
-            .setPositiveButton("Simpan") { _, _ ->
+            .setPositiveButton(getString(R.string.save)) { _, _ ->
                 val name = dialogBinding.etName.text.toString()
+                val category = dialogBinding.etCategory.text.toString()
                 val amount = dialogBinding.etAmount.text.toString().toDoubleOrNull() ?: 0.0
                 val period = when (dialogBinding.rgPeriod.checkedRadioButtonId) {
                     dialogBinding.rbDaily.id -> "Daily"
@@ -93,11 +96,13 @@ class FixedExpenseFragment : Fragment() {
                 if (name.isNotEmpty() && amount > 0) {
                     val newExpense = expense?.copy(
                         name = name,
+                        category = category,
                         amount = amount,
                         period = period
                     ) ?: FixedExpenseEntity(
                         userId = userId,
                         name = name,
+                        category = category,
                         amount = amount,
                         period = period,
                         date = System.currentTimeMillis()
@@ -108,20 +113,22 @@ class FixedExpenseFragment : Fragment() {
                     } else {
                         viewModel.insertFixedExpense(newExpense)
                     }
+                } else {
+                    Toast.makeText(context, getString(R.string.input_correctly), Toast.LENGTH_SHORT).show()
                 }
             }
-            .setNegativeButton("Batal", null)
+            .setNegativeButton(getString(R.string.cancel), null)
             .show()
     }
 
     private fun showDeleteConfirmation(expense: FixedExpenseEntity) {
         AlertDialog.Builder(requireContext())
-            .setTitle("Hapus Pengeluaran")
-            .setMessage("Hapus pengeluaran ini?")
-            .setPositiveButton("Hapus") { _, _ ->
+            .setTitle(getString(R.string.delete_title))
+            .setMessage(getString(R.string.delete_fixed_confirm))
+            .setPositiveButton(getString(R.string.delete_title)) { _, _ ->
                 viewModel.deleteFixedExpense(expense)
             }
-            .setNegativeButton("Batal", null)
+            .setNegativeButton(getString(R.string.cancel), null)
             .show()
     }
 
