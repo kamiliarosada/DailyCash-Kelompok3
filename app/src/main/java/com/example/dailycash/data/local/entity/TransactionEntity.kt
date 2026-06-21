@@ -10,7 +10,9 @@ data class TransactionEntity(
     val id: String = UUID.randomUUID().toString(),
     val userId: String = "",
     val title: String = "",
-    val amount: Double = 0.0,
+    val amount: Double = 0.0, // Ini dalam Rupiah (hasil konversi)
+    val originalAmount: Double = 0.0, // Ini jumlah asli (misal $5)
+    val currency: String = "IDR", // "IDR", "USD", dll
     val category: String = "",
     val type: String = "", // "pemasukan" or "pengeluaran"
     val date: Long = System.currentTimeMillis(),

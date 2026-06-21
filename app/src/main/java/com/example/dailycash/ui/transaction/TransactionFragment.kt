@@ -22,6 +22,12 @@ import com.example.dailycash.databinding.DialogAddTransactionBinding
 import java.text.SimpleDateFormat
 import java.util.*
 
+import androidx.lifecycle.lifecycleScope
+import com.example.dailycash.data.remote.RetrofitClient
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
 class TransactionFragment : Fragment() {
 
     private var _binding: FragmentTransactionBinding? = null
@@ -189,8 +195,13 @@ class TransactionFragment : Fragment() {
 
         if (isEdit) {
             dialogBinding.etTitle.setText(transaction?.title)
-            dialogBinding.etAmount.setText(transaction?.amount.toString())
+            dialogBinding.etAmount.setText(transaction?.originalAmount.toString())
             dialogBinding.etCategory.setText(transaction?.category)
+            
+            val currencyArray = resources.getStringArray(R.array.currency_options)
+            val currencyIndex = currencyArray.indexOf(transaction?.currency ?: "IDR")
+            dialogBinding.spCurrency.setSelection(if (currencyIndex != -1) currencyIndex else 0)
+
             if (transaction?.type == "pemasukan") {
                 dialogBinding.rbIncome.isChecked = true
             } else {
@@ -215,29 +226,63 @@ class TransactionFragment : Fragment() {
             .setView(dialogBinding.root)
             .setPositiveButton(getString(R.string.save)) { _, _ ->
                 val title = dialogBinding.etTitle.text.toString()
-                val amount = dialogBinding.etAmount.text.toString().toDoubleOrNull() ?: 0.0
+                val originalAmount = dialogBinding.etAmount.text.toString().toDoubleOrNull() ?: 0.0
                 val cat = dialogBinding.etCategory.text.toString()
                 val type = if (dialogBinding.rbIncome.isChecked) "pemasukan" else "pengeluaran"
+                val currency = dialogBinding.spCurrency.selectedItem.toString()
 
-                if (title.isNotEmpty() && amount > 0) {
-                    val updatedTransaction = transaction?.copy(
-                        title = title,
-                        amount = amount,
-                        category = cat,
-                        type = type,
-                        date = selectedDate
-                    ) ?: TransactionEntity(
-                        userId = userId,
-                        title = title,
-                        amount = amount,
-                        category = cat,
-                        type = type,
-                        date = selectedDate,
-                        note = ""
-                    )
+                if (title.isNotEmpty() && originalAmount > 0) {
+                    lifecycleScope.launch {
+                        var finalAmount = originalAmount
+                        
+                        if (currency != "IDR") {
+                            try {
+                                val response = withContext(Dispatchers.IO) {
+                                    RetrofitClient.currencyApi.convertCurrency(
+                                        "d7f45a4433280c4419515089", // Contoh API Key
+                                        currency,
+                                        "IDR",
+                                        originalAmount
+                                    )
+                                }
+                                finalAmount = response.conversion_result
+                            } catch (e: Exception) {
+                                withContext(Dispatchers.Main) {
+                                    Toast.makeText(context, "Gagal konversi otomatis, menggunakan kurs fallback", Toast.LENGTH_SHORT).show()
+                                }
+                                // Fallback kurs manual sederhana
+                                finalAmount = when(currency) {
+                                    "USD" -> originalAmount * 16000
+                                    "EUR" -> originalAmount * 17500
+                                    "SGD" -> originalAmount * 12000
+                                    else -> originalAmount
+                                }
+                            }
+                        }
 
-                    if (isEdit) viewModel.updateTransaction(updatedTransaction)
-                    else viewModel.insertTransaction(updatedTransaction)
+                        val updatedTransaction = transaction?.copy(
+                            title = title,
+                            amount = finalAmount,
+                            originalAmount = originalAmount,
+                            currency = currency,
+                            category = cat,
+                            type = type,
+                            date = selectedDate
+                        ) ?: TransactionEntity(
+                            userId = userId,
+                            title = title,
+                            amount = finalAmount,
+                            originalAmount = originalAmount,
+                            currency = currency,
+                            category = cat,
+                            type = type,
+                            date = selectedDate,
+                            note = ""
+                        )
+
+                        if (isEdit) viewModel.updateTransaction(updatedTransaction)
+                        else viewModel.insertTransaction(updatedTransaction)
+                    }
                 } else {
                     Toast.makeText(context, getString(R.string.input_correctly), Toast.LENGTH_SHORT).show()
                 }
