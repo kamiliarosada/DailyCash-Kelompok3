@@ -99,4 +99,12 @@
     <string name="period_weekly">Mingguan</string>
     <string name="period_monthly">Bulanan</string>
     <string name="period_yearly">Tahunan</string>
+
+    <string-array name="currency_options">
+        <item>IDR</item>
+        <item>USD</item>
+        <item>EUR</item>
+        <item>JPY</item>
+        <item>SGD</item>
+    </string-array>
 </resources>

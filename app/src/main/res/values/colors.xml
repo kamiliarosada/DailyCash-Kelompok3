@@ -11,6 +11,7 @@
 
     <color name="cream_bg">#FCF9F7</color> <!-- Ultra Soft Sand -->
     <color name="cream_surface">#FFFFFF</color>
+    <color name="cream_card">#FFFFFF</color>
     <color name="card_border">#E8E0DD</color>
 
     <!-- Semantic Colors (Premium Soft) -->
