@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- True Black Dark Mode with Coffee Accents -->
+    <color name="primary">#A1887F</color>
+    <color name="primary_light">#D7CCC8</color>
+    <color name="primary_dark">#000000</color>
+    <color name="primary_extra_light">#EFEBE9</color>
+
+    <color name="secondary">#E2C58A</color> <!-- Golden in Dark -->
+    <color name="secondary_light">#FDF5E6</color>
+    <color name="secondary_container">#1A1A1A</color>
+
+    <!-- Gradient Colors -->
+    <color name="grad_mocha">#3E2723</color>
+    <color name="grad_gold">#C5A059</color>
+
+    <!-- Neutral Colors -->
+    <color name="background_light">#000000</color>
+    <color name="surface_light">#121212</color>
+    <color name="on_surface_light">#FFFFFF</color>
+    <color name="surface_variant_light">#1A1A1A</color>
+    <color name="outline_light">#B0B0B0</color>
+    <color name="text_hint_light">#808080</color>
+    <color name="text_main">#FFFFFF</color>
+    <color name="text_hint">#808080</color>
+
+    <!-- UI Colors -->
+    <color name="vanilla_bg">#000000</color>
+    <color name="cream_bg">#000000</color>
+    <color name="cream_surface">#121212</color>
+    <color name="cream_card">#1A1A1A</color>
+    <color name="accent_orange">#C5A059</color>
+
+    <!-- Semantic Colors -->
+    <color name="income">#66BB6A</color>
+    <color name="income_green">#66BB6A</color>
+    <color name="income_bg">#1B3320</color>
+
+    <color name="expense">#EF5350</color>
+    <color name="expense_red">#EF5350</color>
+    <color name="expense_bg">#331B1B</color>
+
+    <color name="fixed">#FFCA28</color>
+    <color name="fixed_bg">#332D1B</color>
+
+    <!-- Status Badges -->
+    <color name="status_safe_bg">#1B3320</color>
+    <color name="status_safe_text">#66BB6A</color>
+    <color name="status_warning_bg">#332D1B</color>
+    <color name="status_warning_text">#FFCA28</color>
+    <color name="status_danger_bg">#331B1B</color>
+    <color name="status_danger_text">#EF5350</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
+
+    <color name="primary_brown">#A1887F</color>
+    <color name="primary_light_brown">#D7CCC8</color>
+    <color name="primary_dark_brown">#000000</color>
+    <color name="card_border">#2C2C2C</color>
+    <color name="status_danger">#EF5350</color>
+    <color name="keypad_text">#FFFFFF</color>
+
+    <!-- Category Colors -->
+    <color name="cat_food">#FF8A65</color>
+    <color name="cat_fruit">#F06292</color>
+    <color name="cat_drink">#4FC3F7</color>
+    <color name="cat_cake">#BA68C8</color>
+    <color name="cat_noodle">#FFF176</color>
+    <color name="cat_veg">#81C784</color>
+    <color name="cat_coffee">#A1887F</color>
+    <color name="cat_car">#90A4AE</color>
+    <color name="cat_bus">#FFB74D</color>
+    <color name="cat_plane">#7986CB</color>
+    <color name="cat_shoes">#BDBDBD</color>
+    <color name="cat_clothes">#4DB6AC</color>
+    <color name="cat_income_cash">#AED581</color>
+    <color name="cat_income_salary">#7986CB</color>
+</resources>

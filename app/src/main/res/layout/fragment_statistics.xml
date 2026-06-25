@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cream_bg">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_header_gradient"
+        app:elevation="0dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="64dp"
+            android:paddingBottom="24dp"
+            android:paddingHorizontal="24dp"
+            android:text="@string/stats_title"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:fontFamily="sans-serif-black" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Chart Card -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/ExtraRoundedCard"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@color/white">
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pieChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="8dp" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Calendar Card -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/ExtraRoundedCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@color/white">
+
+                <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                    android:id="@+id/calendarView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:mcv_selectionColor="@color/primary_brown"
+                    app:mcv_showOtherDates="all" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Selected Date Transactions -->
+            <TextView
+                android:id="@+id/tvSelectedDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Transaksi Tanggal: -"
+                android:textColor="@color/text_main"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvDateTransactions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                tools:listitem="@layout/item_transaction" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="80dp" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
