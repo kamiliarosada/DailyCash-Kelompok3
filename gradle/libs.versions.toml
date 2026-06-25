@@ -16,6 +16,8 @@ firebaseBom = "34.13.0"
 lifecycle = "2.7.0"
 kotlin = "2.1.0"
 ksp = "2.1.0-1.0.29"
+mpandroidchart = "v3.1.0"
+materialcalendar = "2.0.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -47,6 +49,8 @@ firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics
 # Lifecycle
 androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycle" }
+mpandroidchart = { group = "com.github.PhilJay", name = "MPAndroidChart", version.ref = "mpandroidchart" }
+calendar-view = { group = "com.github.prolificinteractive", name = "material-calendarview", version.ref = "materialcalendar" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

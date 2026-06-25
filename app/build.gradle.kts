@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.google.services)
     id("kotlin-kapt")
 }
 
@@ -73,11 +74,9 @@ dependencies {
 
     // Stats & Calendar
     implementation(libs.mpandroidchart)
-    implementation(libs.materialcalendar)
+    implementation(libs.calendar.view)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
 }
-
-apply(plugin = "com.google.gms.google-services")

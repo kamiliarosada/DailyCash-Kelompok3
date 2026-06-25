@@ -134,27 +134,23 @@ class ProfileFragment : Fragment() {
     }
 
     private fun showChangePasswordDialog() {
-        val input = android.widget.EditText(requireContext())
-        input.inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
-        AlertDialog.Builder(requireContext())
-            .setTitle(getString(R.string.change_password))
-            .setView(input)
-            .setPositiveButton(getString(R.string.save)) { _, _ ->
-                val newPassword = input.text.toString()
-                if (newPassword.length >= 6) {
-                    auth.currentUser?.updatePassword(newPassword)?.addOnCompleteListener { task ->
+        val email = auth.currentUser?.email
+        if (email != null) {
+            AlertDialog.Builder(requireContext())
+                .setTitle(getString(R.string.change_password))
+                .setMessage(getString(R.string.reset_password_desc, email))
+                .setPositiveButton(getString(R.string.send)) { _, _ ->
+                    auth.sendPasswordResetEmail(email).addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            android.widget.Toast.makeText(requireContext(), getString(R.string.password_updated), android.widget.Toast.LENGTH_SHORT).show()
+                            android.widget.Toast.makeText(requireContext(), getString(R.string.reset_email_sent), android.widget.Toast.LENGTH_LONG).show()
                         } else {
                             android.widget.Toast.makeText(requireContext(), "Gagal: ${task.exception?.message}", android.widget.Toast.LENGTH_SHORT).show()
                         }
                     }
-                } else {
-                    android.widget.Toast.makeText(requireContext(), getString(R.string.password_min_chars), android.widget.Toast.LENGTH_SHORT).show()
                 }
-            }
-            .setNegativeButton(getString(R.string.cancel), null)
-            .show()
+                .setNegativeButton(getString(R.string.cancel), null)
+                .show()
+        }
     }
 
     override fun onDestroyView() {

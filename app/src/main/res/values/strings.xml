@@ -4,12 +4,15 @@
     <!-- Navigasi -->
     <string name="nav_dashboard">Beranda</string>
     <string name="nav_history">Riwayat</string>
+    <string name="nav_stats">Statistik</string>
     <string name="nav_fixed">Tagihan</string>
     <string name="nav_profile">Profil</string>
 
     <!-- Dashboard -->
+    <string name="welcome_back">Selamat Datang Kembali,</string>
     <string name="my_wallet">Saldo Tersedia</string>
     <string name="financial_condition">Kondisi: %1$s</string>
+    <string name="stats_title">Statistik Keuangan</string>
     <string name="income_label">Pemasukan</string>
     <string name="expense_label">Pengeluaran</string>
     <string name="fixed_label">Beban Tetap</string>
@@ -43,6 +46,14 @@
     <string name="premium_member">Anggota Premium</string>
     <string name="dark_mode">Mode Gelap</string>
     <string name="change_language">Pilih Bahasa</string>
+    <string name="change_username">Ganti Username</string>
+    <string name="change_password">Lupa Kata Sandi?</string>
+    <string name="reset_password_desc">Kami akan mengirimkan email untuk mengatur ulang kata sandi Anda ke %1$s</string>
+    <string name="send">Kirim</string>
+    <string name="reset_email_sent">Email reset telah dikirim!</string>
+    <string name="username_updated">Username diperbarui</string>
+    <string name="password_updated">Password diperbarui</string>
+    <string name="password_min_chars">Password minimal 6 karakter</string>
     <string name="logout">Keluar Akun</string>
     <string name="lang_indo">Bahasa Indonesia</string>
     <string name="lang_eng">English</string>
@@ -61,6 +72,10 @@
     <string name="amount_hint">Jumlah (Rp)</string>
     <string name="category_hint">Kategori</string>
     <string name="date_hint">Tanggal</string>
+    <string name="today">Hari Ini</string>
+    <string name="tab_expense">Pengeluaran</string>
+    <string name="tab_income">Pemasukan</string>
+    <string name="comment_hint">Catatan (Opsional)</string>
 
     <!-- Status -->
     <string name="status_safe">AMAN</string>
@@ -73,6 +88,10 @@
     <string name="balance_hidden">Rp •••••••••</string>
     <string name="quote_format">“%1$s”</string>
     <string name="author_format">- %1$s</string>
+    <string name="default_account">Dompet Utama</string>
+    <string name="daily_allowance_max">Jatah Harian Maks.</string>
+    <string name="recent_transactions">Transaksi Terakhir</string>
+    <string name="view_all">Lihat Semua</string>
 
     <!-- Boilerplate -->
     <string name="next">Selanjutnya</string>
@@ -93,10 +112,31 @@
     <string name="edit_fixed_title">Ubah Pengeluaran Tetap</string>
     <string name="delete_fixed_confirm">Hapus pengeluaran ini?</string>
     <string name="delete_title">Hapus</string>
+    <string name="custom_category_title">Kategori Kustom</string>
+    <string name="custom_category_hint">Nama Kategori Baru</string>
 
     <!-- Periods -->
     <string name="period_daily">Harian</string>
     <string name="period_weekly">Mingguan</string>
     <string name="period_monthly">Bulanan</string>
     <string name="period_yearly">Tahunan</string>
+
+    <!-- Auth -->
+    <string name="login_desc">Silakan masuk untuk mengelola keuangan Anda</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Kata Sandi</string>
+    <string name="remember_me">Ingat Saya</string>
+    <string name="login_button">Masuk</string>
+    <string name="to_register">Belum punya akun? Daftar sekarang</string>
+    <string name="register_title">Daftar Akun</string>
+    <string name="register_desc">Buat akun baru untuk mulai menabung</string>
+    <string name="username_hint">Nama Pengguna</string>
+    <string name="register_button">Daftar</string>
+    <string name="to_login">Sudah punya akun? Masuk di sini</string>
+
+    <!-- Content Descriptions -->
+    <string name="content_description_logo">Logo DailyCash</string>
+    <string name="content_description_email">Ikon Email</string>
+    <string name="content_description_password">Ikon Kata Sandi</string>
+    <string name="content_description_username">Ikon Nama Pengguna</string>
 </resources>

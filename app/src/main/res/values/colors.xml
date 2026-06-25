@@ -2,6 +2,27 @@
 <resources>
     <color name="black">#1A1A1A</color>
     <color name="white">#FFFFFF</color>
+    <color name="transparent">#00000000</color>
+
+    <!-- Base UI Colors -->
+    <color name="primary">#3E2723</color>
+    <color name="primary_light">#A1887F</color>
+    <color name="primary_dark">#1B0000</color>
+    <color name="secondary">#C5A059</color>
+    <color name="secondary_light">#FDF5E6</color>
+    <color name="secondary_container">#FCF9F7</color>
+
+    <color name="background_light">#FCF9F7</color>
+    <color name="surface_light">#FFFFFF</color>
+    <color name="on_surface_light">#2D2422</color>
+    <color name="surface_variant_light">#F5F5F5</color>
+    <color name="outline_light">#BCAAA4</color>
+
+    <color name="vanilla_bg">#FCF9F7</color>
+    <color name="accent_orange">#F39C12</color>
+    <color name="cream_card">#FFFFFF</color>
+    <color name="income">#27AE60</color>
+    <color name="expense">#E74C3C</color>
 
     <!-- Luxury Warm Aesthetic Palette -->
     <color name="primary_brown">#3E2723</color> <!-- Deep Espresso -->
@@ -33,4 +54,20 @@
 
     <color name="text_main">#2D2422</color>
     <color name="text_hint">#8D7A77</color>
+
+    <!-- Category Colors -->
+    <color name="cat_food">#FF8A65</color>
+    <color name="cat_fruit">#F06292</color>
+    <color name="cat_drink">#4FC3F7</color>
+    <color name="cat_cake">#BA68C8</color>
+    <color name="cat_noodle">#FFF176</color>
+    <color name="cat_veg">#81C784</color>
+    <color name="cat_coffee">#A1887F</color>
+    <color name="cat_car">#90A4AE</color>
+    <color name="cat_bus">#FFB74D</color>
+    <color name="cat_plane">#7986CB</color>
+    <color name="cat_shoes">#BDBDBD</color>
+    <color name="cat_clothes">#4DB6AC</color>
+    <color name="cat_income_cash">#AED581</color>
+    <color name="cat_income_salary">#7986CB</color>
 </resources>
