@@ -1,5 +1,6 @@
 package com.example.dailycash.ui.auth
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -26,7 +27,8 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         preferenceManager = PreferenceManager(this)
 
-        if (preferenceManager.isLoggedIn() && preferenceManager.isRememberMe()) {
+        // Only auto-login if they have a persistent Firebase session AND opted for Remember Me
+        if (FirebaseAuth.getInstance().currentUser != null && preferenceManager.isLoggedIn() && preferenceManager.isRememberMe()) {
             startMainActivity()
             return
         }
@@ -62,6 +64,7 @@ class LoginActivity : AppCompatActivity() {
             ?.addOnCompleteListener { task ->
                 binding.loginProgressBar.visibility = View.GONE
                 if (task.isSuccessful) {
+                    Toast.makeText(this, "Login Berhasil!", Toast.LENGTH_SHORT).show()
                     preferenceManager.setLoggedIn(true)
                     preferenceManager.setUserEmail(email)
                     preferenceManager.setRememberMe(binding.cbRememberMe.isChecked)

@@ -3,7 +3,13 @@
 
     <!-- Navigasi -->
     <string name="nav_dashboard">Beranda</string>
-    <string name="nav_history">Riwayat</string>
+    <string name="nav_history">Statistik</string>
+    <string name="nav_stats">Statistik</string>
+    <string name="stats_title">Analisis Keuangan</string>
+    <string name="chart_income_label">Pemasukan</string>
+    <string name="chart_expense_label">Pengeluaran</string>
+    <string name="view_all">Lihat Semua</string>
+    <string name="recent_transactions">Riwayat Transaksi</string>
     <string name="nav_fixed">Tagihan</string>
     <string name="nav_profile">Profil</string>
 
@@ -12,10 +18,13 @@
     <string name="financial_condition">Kondisi: %1$s</string>
     <string name="income_label">Pemasukan</string>
     <string name="expense_label">Pengeluaran</string>
+    <string name="others_label">Lainnya</string>
+    <string name="transfer_label">Transfer</string>
     <string name="fixed_label">Beban Tetap</string>
     <string name="budget_mgmt_title">Manajemen Anggaran</string>
     <string name="budget_limit">Batas Anggaran</string>
     <string name="daily_allowance">Jatah Harian</string>
+    <string name="daily_allowance_max">JATAH HARIAN MAX:</string>
     <string name="remaining_days_desc">Sisa %1$s hari lagi</string>
     <string name="set_budget_title">Atur Anggaran</string>
     <string name="budget_limit_hint">Batas anggaran periode ini</string>
@@ -40,12 +49,13 @@
 
     <!-- Profil -->
     <string name="account_settings">Pengaturan Akun</string>
-    <string name="premium_member">Anggota Premium</string>
+    <string name="change_username">Ganti Username</string>
+    <string name="change_password">Ganti Password</string>
+    <string name="username_updated">Username diperbarui</string>
+    <string name="password_updated">Password diperbarui</string>
+    <string name="password_min_chars">Password minimal 6 karakter</string>
     <string name="dark_mode">Mode Gelap</string>
-    <string name="change_language">Pilih Bahasa</string>
     <string name="logout">Keluar Akun</string>
-    <string name="lang_indo">Bahasa Indonesia</string>
-    <string name="lang_eng">English</string>
     <string name="profile_picture_desc">Foto Profil</string>
     <string name="app_version">Versi 1.0.4</string>
 
@@ -57,6 +67,8 @@
     <string name="delete_confirm">Hapus transaksi ini?</string>
     <string name="select_period_title">Pilih Periode Anggaran</string>
     <string name="input_correctly">Mohon isi data dengan benar</string>
+    <string name="custom_category_title">Kategori Lainnya</string>
+    <string name="custom_category_hint">Tulis nama kategori</string>
     <string name="transaction_name_hint">Nama Transaksi (Contoh: Bakso)</string>
     <string name="amount_hint">Jumlah (Rp)</string>
     <string name="category_hint">Kategori</string>
@@ -99,4 +111,78 @@
     <string name="period_weekly">Mingguan</string>
     <string name="period_monthly">Bulanan</string>
     <string name="period_yearly">Tahunan</string>
+
+    <string-array name="currency_options">
+        <item>IDR</item>
+        <item>USD</item>
+        <item>EUR</item>
+        <item>JPY</item>
+        <item>SGD</item>
+    </string-array>
+    <!-- Add Transaction Specific -->
+    <string name="tab_expense">Pengeluaran</string>
+    <string name="tab_income">Pendapatan</string>
+    <string name="tab_transfer">Transfer</string>
+    <string name="amount_label">Jumlah</string>
+    <string name="comment_hint">Komentar</string>
+    <string name="today">Hari ini</string>
+    <string name="default_account">Bawaan</string>
+    <string name="savings">Tabungan</string>
+    <string name="reimburse">Reimburse</string>
+
+    <!-- Expense Categories -->
+    <string name="cat_makanan">Makanan</string>
+    <string name="cat_buah">Buah</string>
+    <string name="cat_minum">Minum</string>
+    <string name="cat_kue">Kue</string>
+    <string name="cat_mie">Mie</string>
+    <string name="cat_sayuran">Sayuran</string>
+    <string name="cat_kopi">Kopi</string>
+    <string name="cat_mobil">Mobil</string>
+    <string name="cat_bis">Bis</string>
+    <string name="cat_pesawat">Pesawat</string>
+    <string name="cat_sepatu">Sepatu</string>
+    <string name="cat_baju">Baju</string>
+    <string name="cat_tonton">Tonton</string>
+    <string name="cat_kosmetik">Kosmetik</string>
+    <string name="cat_permainan">Permainan</string>
+    <string name="cat_olahraga">Olahraga</string>
+    <string name="cat_pil">Pil</string>
+    <string name="cat_gigi">Gigi</string>
+
+    <!-- Income Categories -->
+    <string name="cat_tunai">Tunai</string>
+    <string name="cat_kotak">Kotak</string>
+    <string name="cat_setoran">Setoran</string>
+    <string name="cat_bunga">Bunga</string>
+    <string name="cat_bonus">Bonus</string>
+    <string name="cat_penjualan">Penjualan</string>
+    <string name="cat_stok">Stok</string>
+    <string name="cat_gaji">Gaji</string>
+    <string name="cat_obligasi">Obligasi</string>
+    <string name="cat_lainnya">Lainnya</string>
+    <string name="cat_ewallet">e-wallet</string>
+    <string name="cat_pengaturan">Pengaturan</string>
+
+    <string name="welcome_back">Selamat datang kembali!</string>
+    <string name="hello_user">Halo, %1$s</string>
+    <string name="my_points">Poin Saya:</string>
+    <string name="top_up">Top Up</string>
+    <string name="transfer">Transfer</string>
+    <string name="withdraw">Tarik Saldo</string>
+    <string name="promo_title">Dapatkan Promo Menarik!</string>
+    <string name="promo_desc">SISTEM LOGISTIK</string>
+    <string name="promo_rank">NO. 1 DI INDONESIA</string>
+    <string name="login_title">Masuk Akun</string>
+    <string name="register_title">Daftar Akun</string>
+    <string name="login_desc">Kelola keuanganmu dengan bijak</string>
+    <string name="register_desc">Mulai catat keuanganmu sekarang</string>
+    <string name="login_button">Masuk</string>
+    <string name="register_button">Daftar</string>
+    <string name="to_register">Belum punya akun? Daftar sekarang</string>
+    <string name="to_login">Sudah punya akun? Masuk</string>
+    <string name="remember_me">Ingat Saya</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="username_hint">Username</string>
 </resources>

@@ -3,6 +3,7 @@ package com.example.dailycash.utils
 import android.content.Context
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import java.util.*
 
 class PreferenceManager(private val context: Context) {
@@ -14,8 +15,14 @@ class PreferenceManager(private val context: Context) {
         private const val KEY_DARK_MODE = "dark_mode"
         private const val KEY_USER_EMAIL = "user_email"
         private const val KEY_BALANCE_VISIBLE = "balance_visible"
-        private const val KEY_LANGUAGE = "language"
+        private const val KEY_PROFILE_IMAGE = "profile_image_uri"
     }
+
+    fun setProfileImageUri(uri: String) {
+        prefs.edit().putString(KEY_PROFILE_IMAGE, uri).apply()
+    }
+
+    fun getProfileImageUri(): String? = prefs.getString(KEY_PROFILE_IMAGE, null)
 
     fun setLoggedIn(isLoggedIn: Boolean) {
         prefs.edit().putBoolean(KEY_IS_LOGGED_IN, isLoggedIn).apply()
@@ -49,21 +56,6 @@ class PreferenceManager(private val context: Context) {
     }
 
     fun isBalanceVisible(): Boolean = prefs.getBoolean(KEY_BALANCE_VISIBLE, true)
-
-    fun setLanguage(lang: String) {
-        prefs.edit().putString(KEY_LANGUAGE, lang).apply()
-        applyLanguage(lang)
-    }
-
-    fun getLanguage(): String = prefs.getString(KEY_LANGUAGE, "in") ?: "in"
-
-    fun applyLanguage(lang: String) {
-        val locale = Locale(lang)
-        Locale.setDefault(locale)
-        val config = Configuration()
-        config.setLocale(locale)
-        context.resources.updateConfiguration(config, context.resources.displayMetrics)
-    }
 
     fun setUserEmail(email: String) {
         prefs.edit().putString(KEY_USER_EMAIL, email).apply()

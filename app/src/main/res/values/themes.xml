@@ -1,26 +1,78 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.DailyCash" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/primary_brown</item>
+        <item name="isLightTheme">true</item>
+        <item name="colorPrimary">@color/primary</item>
         <item name="colorOnPrimary">@color/white</item>
-        <item name="colorSecondary">@color/primary_light_brown</item>
-        <item name="android:windowBackground">@color/cream_bg</item>
-        <item name="colorSurface">@color/cream_surface</item>
-        <item name="colorOnSurface">@color/text_main</item>
-        <item name="colorOutlineVariant">@color/card_border</item>
-        <item name="android:statusBarColor">@color/primary_brown</item>
+        <item name="colorPrimaryContainer">@color/primary_light</item>
+        <item name="colorOnPrimaryContainer">@color/white</item>
 
-        <!-- Bottom Nav Colors -->
-        <item name="colorSurfaceVariant">@color/cream_surface</item>
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSecondaryContainer">@color/secondary_container</item>
+
+        <item name="android:windowBackground">@color/background_light</item>
+        <item name="colorSurface">@color/surface_light</item>
+        <item name="colorOnSurface">@color/on_surface_light</item>
+        <item name="colorSurfaceVariant">@color/surface_variant_light</item>
+        <item name="colorOnSurfaceVariant">@color/on_surface_light</item>
+
+        <item name="colorOutline">@color/outline_light</item>
+        <item name="android:statusBarColor">@color/primary</item>
     </style>
 
     <style name="Theme.DailyCash" parent="Base.Theme.DailyCash" />
 
-    <!-- Extra aesthetic styles -->
+    <!-- Professional Component Styles -->
     <style name="ExtraRoundedCard" parent="Widget.Material3.CardView.Elevated">
-        <item name="cardCornerRadius">28dp</item>
-        <item name="cardElevation">0dp</item>
-        <item name="strokeWidth">1dp</item>
-        <item name="strokeColor">@color/card_border</item>
+        <item name="cardCornerRadius">24dp</item>
+        <item name="cardElevation">2dp</item>
+        <item name="strokeWidth">0dp</item>
+    </style>
+
+    <style name="KeypadButton" parent="Widget.Material3.Button.TextButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">64dp</item>
+        <item name="android:layout_columnWeight">1</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="KeypadImageButton" parent="Widget.Material3.Button.IconButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">64dp</item>
+        <item name="android:layout_columnWeight">1</item>
+        <item name="iconTint">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="KeypadButtonSmall" parent="Widget.Material3.Button.TextButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_columnWeight">1</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:padding">0dp</item>
+    </style>
+
+    <style name="KeypadImageButtonSmall" parent="Widget.Material3.Button.IconButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_columnWeight">1</item>
+        <item name="iconTint">?attr/colorOnSurface</item>
+        <item name="android:padding">0dp</item>
+    </style>
+
+    <style name="SideButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:background">@drawable/bg_rounded_pill</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingHorizontal">16dp</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:drawablePadding">8dp</item>
     </style>
 </resources>

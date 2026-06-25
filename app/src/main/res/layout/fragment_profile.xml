@@ -8,7 +8,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/primary_brown"
+        android:background="@drawable/bg_header_gradient"
         app:elevation="0dp">
 
         <LinearLayout
@@ -16,21 +16,27 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center"
-            android:padding="32dp">
+            android:paddingTop="80dp"
+            android:paddingBottom="40dp"
+            android:paddingHorizontal="32dp">
 
             <com.google.android.material.card.MaterialCardView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                app:cardCornerRadius="40dp"
-                app:strokeWidth="2dp"
+                android:id="@+id/cardProfileImage"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:cardCornerRadius="50dp"
+                app:strokeWidth="3dp"
                 app:strokeColor="@color/white"
-                app:cardElevation="4dp">
+                app:cardElevation="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
                 <ImageView
+                    android:id="@+id/ivProfileImage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:src="@android:drawable/ic_menu_gallery"
-                    android:padding="16dp"
-                    app:tint="@color/primary_brown"
+                    android:scaleType="centerCrop"
                     android:contentDescription="Profile Picture" />
             </com.google.android.material.card.MaterialCardView>
 
@@ -40,18 +46,18 @@
                 android:layout_height="wrap_content"
                 android:text="user@example.com"
                 android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:textSize="20sp"
+                android:fontFamily="sans-serif-black"
                 android:layout_marginTop="16dp" />
 
             <TextView
+                android:id="@+id/tvProfileName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/premium_member"
-                android:textColor="@color/primary_light_brown"
-                android:textSize="12sp"
-                android:letterSpacing="0.1"
-                android:textAllCaps="true" />
+                android:text="User"
+                android:textColor="@color/secondary_light"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif-medium" />
         </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -99,7 +105,7 @@
                     <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/card_border" android:layout_marginHorizontal="12dp"/>
 
                     <LinearLayout
-                        android:id="@+id/btnChangeLanguage"
+                        android:id="@+id/btnChangeUsername"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -109,18 +115,29 @@
                         android:focusable="true"
                         android:foreground="?attr/selectableItemBackground">
                         <TextView
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/change_language"
+                            android:text="@string/change_username"
                             android:textColor="?attr/colorOnSurface" />
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/card_border" android:layout_marginHorizontal="12dp"/>
+
+                    <LinearLayout
+                        android:id="@+id/btnChangePassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="12dp"
+                        android:gravity="center_vertical"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground">
                         <TextView
-                            android:id="@+id/tvCurrentLanguage"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Bahasa Indonesia"
-                            android:textSize="12sp"
-                            android:textColor="@color/text_hint" />
+                            android:text="@string/change_password"
+                            android:textColor="?attr/colorOnSurface" />
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>

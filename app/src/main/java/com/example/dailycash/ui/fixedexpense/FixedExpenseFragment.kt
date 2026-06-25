@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dailycash.R
 import com.example.dailycash.data.local.entity.FixedExpenseEntity
@@ -17,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth
 
 import androidx.appcompat.app.AlertDialog
 import com.example.dailycash.databinding.DialogAddFixedExpenseBinding
+import kotlinx.coroutines.launch
 
 class FixedExpenseFragment : Fragment() {
 
@@ -65,11 +67,13 @@ class FixedExpenseFragment : Fragment() {
     private fun showFixedExpenseDialog(userId: String, expense: FixedExpenseEntity? = null) {
         val dialogBinding = DialogAddFixedExpenseBinding.inflate(layoutInflater)
         val isEdit = expense != null
+        var selectedCurrency = expense?.currency ?: "IDR"
 
         if (isEdit) {
             dialogBinding.etName.setText(expense?.name)
             dialogBinding.etCategory.setText(expense?.category)
-            dialogBinding.etAmount.setText(expense?.amount.toString())
+            dialogBinding.etAmount.setText(expense?.originalAmount?.toString() ?: expense?.amount.toString())
+            dialogBinding.btnFixedCurrency.text = "$selectedCurrency ▾"
             when (expense?.period) {
                 "Daily" -> dialogBinding.rbDaily.isChecked = true
                 "Weekly" -> dialogBinding.rbWeekly.isChecked = true
@@ -78,13 +82,24 @@ class FixedExpenseFragment : Fragment() {
             }
         }
 
+        dialogBinding.btnFixedCurrency.setOnClickListener {
+            val currencies = arrayOf("IDR", "USD", "EUR", "JPY", "SGD")
+            AlertDialog.Builder(requireContext())
+                .setTitle("Pilih Mata Uang")
+                .setItems(currencies) { _, which ->
+                    selectedCurrency = currencies[which]
+                    dialogBinding.btnFixedCurrency.text = "$selectedCurrency ▾"
+                }
+                .show()
+        }
+
         AlertDialog.Builder(requireContext())
             .setTitle(if (isEdit) getString(R.string.edit_fixed_title) else getString(R.string.add_fixed_title))
             .setView(dialogBinding.root)
             .setPositiveButton(getString(R.string.save)) { _, _ ->
                 val name = dialogBinding.etName.text.toString()
                 val category = dialogBinding.etCategory.text.toString()
-                val amount = dialogBinding.etAmount.text.toString().toDoubleOrNull() ?: 0.0
+                val originalAmount = dialogBinding.etAmount.text.toString().toDoubleOrNull() ?: 0.0
                 val period = when (dialogBinding.rgPeriod.checkedRadioButtonId) {
                     dialogBinding.rbDaily.id -> "Daily"
                     dialogBinding.rbWeekly.id -> "Weekly"
@@ -93,25 +108,37 @@ class FixedExpenseFragment : Fragment() {
                     else -> "Monthly"
                 }
 
-                if (name.isNotEmpty() && amount > 0) {
-                    val newExpense = expense?.copy(
-                        name = name,
-                        category = category,
-                        amount = amount,
-                        period = period
-                    ) ?: FixedExpenseEntity(
-                        userId = userId,
-                        name = name,
-                        category = category,
-                        amount = amount,
-                        period = period,
-                        date = System.currentTimeMillis()
-                    )
+                if (name.isNotEmpty() && originalAmount > 0) {
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        val convertedAmount = if (selectedCurrency != "IDR") {
+                            viewModel.convertCurrency(selectedCurrency, "IDR", originalAmount)
+                        } else {
+                            originalAmount
+                        }
 
-                    if (isEdit) {
-                        viewModel.updateFixedExpense(newExpense)
-                    } else {
-                        viewModel.insertFixedExpense(newExpense)
+                        val newExpense = expense?.copy(
+                            name = name,
+                            category = category,
+                            amount = convertedAmount,
+                            originalAmount = originalAmount,
+                            currency = selectedCurrency,
+                            period = period
+                        ) ?: FixedExpenseEntity(
+                            userId = userId,
+                            name = name,
+                            category = category,
+                            amount = convertedAmount,
+                            originalAmount = originalAmount,
+                            currency = selectedCurrency,
+                            period = period,
+                            date = System.currentTimeMillis()
+                        )
+
+                        if (isEdit) {
+                            viewModel.updateFixedExpense(newExpense)
+                        } else {
+                            viewModel.insertFixedExpense(newExpense)
+                        }
                     }
                 } else {
                     Toast.makeText(context, getString(R.string.input_correctly), Toast.LENGTH_SHORT).show()

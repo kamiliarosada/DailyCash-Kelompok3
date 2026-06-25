@@ -18,6 +18,10 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    androidResources {
+        // generateLocaleConfig = true
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -66,6 +70,10 @@ dependencies {
     // Lifecycle
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
+
+    // Stats & Calendar
+    implementation(libs.mpandroidchart)
+    implementation(libs.materialcalendar)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)

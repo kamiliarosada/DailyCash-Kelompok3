@@ -22,8 +22,16 @@ class FixedExpenseAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = expenses[position]
         holder.binding.tvFixedName.text = item.name
-        holder.binding.tvFixedCategory.text = item.category
-        holder.binding.tvFixedAmount.text = "Rp ${item.amount} (${item.period})"
+        
+        val formattedAmount = String.format("%,.0f", item.amount)
+        if (item.currency != "IDR") {
+            val original = String.format("%,.2f", item.originalAmount)
+            holder.binding.tvFixedAmount.text = "Rp $formattedAmount ($original ${item.currency})"
+        } else {
+            holder.binding.tvFixedAmount.text = "Rp $formattedAmount"
+        }
+        
+        holder.binding.tvFixedCategory.text = "${item.category} • ${item.period}"
 
         holder.binding.root.setOnClickListener {
             onItemClick(item)

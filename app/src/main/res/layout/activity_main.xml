@@ -20,7 +20,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="?android:attr/windowBackground"
-        app:menu="@menu/bottom_nav_menu" />
+        android:background="@color/cream_surface"
+        app:itemIconTint="@color/primary"
+        app:itemTextColor="@color/primary"
+        app:itemRippleColor="@color/secondary_container"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/bottom_nav_menu"
+        app:elevation="16dp" />
 
 </RelativeLayout>

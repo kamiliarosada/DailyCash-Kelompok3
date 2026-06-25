@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth
 import java.util.*
 import androidx.appcompat.app.AlertDialog
 import com.example.dailycash.data.local.entity.BudgetEntity
+import com.example.dailycash.data.local.entity.TransactionEntity
 import com.example.dailycash.databinding.DialogSetBudgetBinding
 import com.example.dailycash.utils.PreferenceManager
 
@@ -24,6 +25,7 @@ class DashboardFragment : Fragment() {
     private val viewModel: CashViewModel by viewModels()
     private val auth = FirebaseAuth.getInstance()
     private lateinit var preferenceManager: PreferenceManager
+    private lateinit var adapter: com.example.dailycash.ui.adapter.TransactionAdapter
     private var actualBalance = 0.0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -35,11 +37,85 @@ class DashboardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         preferenceManager = PreferenceManager(requireContext())
 
+        setupHeader()
+        setupRecyclerView()
         val userId = auth.currentUser?.uid ?: ""
         
         setupObservers(userId)
         setupClickListeners()
         viewModel.fetchQuote()
+    }
+
+    private fun setupHeader() {
+        val user = auth.currentUser
+        val name = user?.displayName ?: user?.email?.split("@")?.get(0) ?: "User"
+        binding.tvHelloUser.text = "Halo, $name! 👋"
+        
+        // Load Profile Image from path safely
+        preferenceManager.getProfileImageUri()?.let { path ->
+            try {
+                val file = java.io.File(path)
+                if (file.exists()) {
+                    val bitmap = android.graphics.BitmapFactory.decodeFile(path)
+                    binding.ivDashboardProfile.setImageBitmap(bitmap)
+                    binding.ivDashboardProfile.clearColorFilter() // Clear tint to show photo
+                    binding.ivDashboardProfile.setPadding(0, 0, 0, 0)
+                    binding.ivDashboardProfile.scaleType = android.widget.ImageView.ScaleType.CENTER_CROP
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun setupRecyclerView() {
+        adapter = com.example.dailycash.ui.adapter.TransactionAdapter(
+            emptyList(),
+            onItemClick = { transaction -> 
+                showEditTransactionDialog(transaction)
+            },
+            onItemLongClick = { transaction ->
+                showDeleteConfirmation(transaction)
+            }
+        )
+        binding.rvRecentTransactions.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(requireContext())
+        binding.rvRecentTransactions.adapter = adapter
+    }
+
+    private fun showDeleteConfirmation(transaction: TransactionEntity) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Hapus Transaksi")
+            .setMessage("Apakah Anda yakin ingin menghapus transaksi ini?")
+            .setPositiveButton("Hapus") { _, _ ->
+                viewModel.deleteTransaction(transaction)
+            }
+            .setNegativeButton("Batal", null)
+            .show()
+    }
+
+    private fun showEditTransactionDialog(transaction: TransactionEntity) {
+        val dialogBinding = com.example.dailycash.databinding.DialogEditTransactionBinding.inflate(layoutInflater)
+        dialogBinding.etEditAmount.setText(transaction.amount.toString())
+        dialogBinding.etEditNote.setText(transaction.title)
+
+        AlertDialog.Builder(requireContext())
+            .setView(dialogBinding.root)
+            .setPositiveButton("Simpan") { _, _ ->
+                val newAmount = dialogBinding.etEditAmount.text.toString().toDoubleOrNull() ?: transaction.amount
+                val newTitle = dialogBinding.etEditNote.text.toString()
+                
+                val updatedTransaction = transaction.copy(
+                    amount = newAmount,
+                    title = if (newTitle.isNotEmpty()) newTitle else transaction.title,
+                    category = if (newTitle.isNotEmpty()) newTitle else transaction.category
+                )
+                viewModel.updateTransaction(updatedTransaction)
+            }
+            .setNegativeButton("Hapus") { _, _ ->
+                viewModel.deleteTransaction(transaction)
+            }
+            .setNeutralButton("Batal", null)
+            .show()
     }
 
     private fun setupClickListeners() {
@@ -53,88 +129,155 @@ class DashboardFragment : Fragment() {
             updateBalanceDisplay()
         }
 
-        binding.cardIncome.setOnClickListener { findNavController().navigate(R.id.navigation_transactions) }
-        binding.cardExpense.setOnClickListener { findNavController().navigate(R.id.navigation_transactions) }
+        binding.cardIncome.setOnClickListener {
+            val bundle = Bundle().apply { putBoolean("isIncome", true) }
+            findNavController().navigate(R.id.navigation_add_transaction, bundle)
+        }
+        binding.cardExpense.setOnClickListener {
+            val bundle = Bundle().apply { putBoolean("isIncome", false) }
+            findNavController().navigate(R.id.navigation_add_transaction, bundle)
+        }
+        binding.btnViewAll.setOnClickListener {
+            findNavController().navigate(R.id.navigation_statistics)
+        }
+        
+        binding.cardProfileIcon.setOnClickListener {
+            findNavController().navigate(R.id.navigation_profile)
+        }
     }
 
+    private var currentBudget = 0.0
+    private var currentIncome = 0.0
+    private var currentExpense = 0.0
+    private var currentFixed = 0.0
+    private var currentPeriod = "Monthly"
+
     private fun setupObservers(userId: String) {
+        val (monthStart, monthEnd) = getCurrentMonthRange()
+
         viewModel.getBudget(userId).observe(viewLifecycleOwner) { budget ->
-            val budgetAmount = budget?.amount ?: 0.0
-            val period = budget?.period ?: "Monthly"
+            currentBudget = budget?.amount ?: 0.0
+            currentPeriod = budget?.period ?: "Monthly"
             
-            binding.tvMonthlyBudget.text = getString(R.string.rp_format, String.format("%,.0f", budgetAmount))
-            calculateFinance(budgetAmount, period, userId)
+            binding.tvMonthlyBudget.text = getString(R.string.rp_format, String.format("%,.0f", currentBudget))
+            binding.tvBudgetTitle.text = when(currentPeriod) {
+                "Daily" -> "Anggaran Harian"
+                "Weekly" -> "Anggaran Mingguan"
+                "Yearly" -> "Anggaran Tahunan"
+                else -> "Anggaran Bulanan"
+            }
+            updateCalculations()
+        }
+
+        // Use Monthly totals for dashboard display
+        viewModel.getIncomeByDateRange(userId, monthStart, monthEnd).observe(viewLifecycleOwner) { income ->
+            currentIncome = income ?: 0.0
+            updateCalculations()
+        }
+        
+        viewModel.getExpenseByDateRange(userId, monthStart, monthEnd).observe(viewLifecycleOwner) { expense ->
+            currentExpense = expense ?: 0.0
+            updateCalculations()
+        }
+        
+        viewModel.getTotalFixedExpense(userId).observe(viewLifecycleOwner) { fixed ->
+            currentFixed = fixed ?: 0.0
+            updateCalculations()
+        }
+
+        viewModel.getAllTransactions(userId).observe(viewLifecycleOwner) { transactions ->
+            val recent = transactions.sortedByDescending { it.date }.take(5)
+            adapter.updateData(recent)
         }
 
         viewModel.quote.observe(viewLifecycleOwner) { quote ->
             if (quote != null) {
                 binding.tvQuote.text = getString(R.string.quote_format, quote.text)
-                binding.tvQuoteAuthor.text = getString(R.string.author_format, quote.author)
             }
         }
     }
 
-    private fun calculateFinance(budget: Double, period: String, userId: String) {
-        viewModel.getTotalIncome(userId).observe(viewLifecycleOwner) { income ->
-            viewModel.getTotalExpense(userId).observe(viewLifecycleOwner) { expense ->
-                viewModel.getTotalFixedExpense(userId).observe(viewLifecycleOwner) { fixed ->
-                    val incomeVal = income ?: 0.0
-                    val expenseVal = expense ?: 0.0
-                    val fixedVal = fixed ?: 0.0
-                    
-                    binding.tvTotalIncome.text = getString(R.string.rp_format, String.format("%,.0f", incomeVal))
-                    binding.tvTotalExpense.text = getString(R.string.rp_format, String.format("%,.0f", expenseVal))
-                    binding.tvTotalFixed.text = getString(R.string.rp_format, String.format("%,.0f", fixedVal))
+    private fun getCurrentMonthRange(): Pair<Long, Long> {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.DAY_OF_MONTH, 1)
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+        val start = calendar.timeInMillis
+        
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
+        calendar.set(Calendar.HOUR_OF_DAY, 23)
+        calendar.set(Calendar.MINUTE, 59)
+        calendar.set(Calendar.SECOND, 59)
+        calendar.set(Calendar.MILLISECOND, 999)
+        val end = calendar.timeInMillis
+        
+        return Pair(start, end)
+    }
 
-                    // Saldo = Budget + Pemasukan - Tagihan Tetap - Pengeluaran Transaksi
-                    actualBalance = budget + incomeVal - fixedVal - expenseVal
-                    updateBalanceDisplay()
+    private fun updateCalculations() {
+        // Balance = Initial Budget + Month Income - Bills - Month Expenses
+        actualBalance = currentBudget + currentIncome - currentFixed - currentExpense
+        updateBalanceDisplay()
 
-                    val remainingDays = when(period) {
-                        "Daily" -> 1
-                        "Weekly" -> 7
-                        "Monthly" -> getRemainingDaysInMonth()
-                        "Yearly" -> 365
-                        else -> 1
-                    }
-                    
-                    val dailyBudget = if (remainingDays > 0) actualBalance / remainingDays else 0.0
-                    binding.tvDailyBudget.text = getString(R.string.rp_format, String.format("%,.0f", dailyBudget))
-                    binding.tvRemainingDays.text = getString(R.string.remaining_days_desc, remainingDays.toString())
-
-                    // Hitung total penggunaan budget (Pengeluaran + Tagihan Tetap)
-                    val totalSpent = expenseVal + fixedVal
-                    updateStatus(budget, totalSpent, actualBalance)
-                }
-            }
+        val remainingDays = when(currentPeriod) {
+            "Daily" -> 1
+            "Weekly" -> 7
+            "Monthly" -> getRemainingDaysInMonth()
+            "Yearly" -> 365
+            else -> getRemainingDaysInMonth()
         }
+        
+        val dailyBudget = if (remainingDays > 0) actualBalance / remainingDays else 0.0
+        binding.tvDailyBudget.text = getString(R.string.rp_format, String.format("%,.0f", dailyBudget))
+        binding.tvRemainingDays.text = "$remainingDays Hari lagi"
+
+        val totalSpent = currentExpense + currentFixed
+        updateStatus(currentBudget, totalSpent, actualBalance)
     }
 
     private fun updateBalanceDisplay() {
         if (preferenceManager.isBalanceVisible()) {
             binding.tvRemainingBalance.text = getString(R.string.rp_format, String.format("%,.0f", actualBalance))
             binding.btnToggleBalance.setImageResource(android.R.drawable.ic_menu_view)
+            
+            // Visual warning for negative balance
+            if (actualBalance < 0) {
+                binding.tvRemainingBalance.setTextColor(androidx.core.content.ContextCompat.getColor(requireContext(), R.color.status_danger))
+            } else {
+                binding.tvRemainingBalance.setTextColor(android.graphics.Color.WHITE)
+            }
         } else {
             binding.tvRemainingBalance.text = getString(R.string.balance_hidden)
+            binding.tvRemainingBalance.setTextColor(android.graphics.Color.WHITE)
             binding.btnToggleBalance.setImageResource(android.R.drawable.ic_menu_close_clear_cancel)
         }
     }
 
     private fun updateStatus(budget: Double, spent: Double, sisa: Double) {
-        // Hitung persentase penggunaan dari budget yang dipatok
-        val percentage = if (budget > 0) (spent / budget) * 100 else if (spent > 0) 101.0 else 0.0
+        val totalAvailable = budget + currentIncome
+        val percentage = if (totalAvailable > 0) (spent / totalAvailable) * 100 else if (spent > 0) 100.0 else 0.0
 
-        val (statusStr, bgRes) = when {
-            // BOROS: Pengeluaran > 90% budget atau saldo minus
-            sisa < 0 || percentage > 90 -> getString(R.string.status_danger) to R.drawable.bg_status_danger
-            // WASPADA: Pengeluaran 71% - 90% budget
-            percentage > 70 -> getString(R.string.status_warning) to R.drawable.bg_status_warning
-            // AMAN: Pengeluaran <= 70% budget
-            else -> getString(R.string.status_safe) to R.drawable.bg_status_safe
+        binding.budgetProgress.progress = percentage.toInt().coerceIn(0, 100)
+
+        val statusStr = when {
+            sisa < 0 -> "KRISIS / MINUS"
+            percentage > 90 -> getString(R.string.status_danger)
+            percentage > 70 -> getString(R.string.status_warning)
+            else -> getString(R.string.status_safe)
         }
 
-        binding.tvFinancialStatus.text = getString(R.string.financial_condition, statusStr)
-        binding.tvFinancialStatus.setBackgroundResource(bgRes)
+        binding.tvFinancialStatus.text = statusStr
+        
+        // Progress color based on status
+        val colorRes = when {
+            sisa < 0 || percentage > 90 -> R.color.expense
+            percentage > 70 -> R.color.accent_orange
+            else -> R.color.income
+        }
+        binding.budgetProgress.setIndicatorColor(androidx.core.content.ContextCompat.getColor(requireContext(), colorRes))
+        binding.tvFinancialStatus.setTextColor(androidx.core.content.ContextCompat.getColor(requireContext(), colorRes))
     }
 
     private fun getRemainingDaysInMonth(): Int {

@@ -9,13 +9,17 @@
         android:id="@+id/navigation_dashboard"
         android:name="com.example.dailycash.ui.dashboard.DashboardFragment"
         android:label="Dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard">
+        <action
+            android:id="@+id/action_dashboard_to_statistics"
+            app:destination="@id/navigation_statistics" />
+    </fragment>
 
     <fragment
-        android:id="@+id/navigation_transactions"
-        android:name="com.example.dailycash.ui.transaction.TransactionFragment"
-        android:label="Transactions"
-        tools:layout="@layout/fragment_transaction" />
+        android:id="@+id/navigation_statistics"
+        android:name="com.example.dailycash.ui.statistics.StatisticsFragment"
+        android:label="Statistik"
+        tools:layout="@layout/fragment_statistics" />
 
     <fragment
         android:id="@+id/navigation_fixed_expenses"
@@ -28,4 +32,15 @@
         android:name="com.example.dailycash.ui.profile.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile" />
+
+    <fragment
+        android:id="@+id/navigation_add_transaction"
+        android:name="com.example.dailycash.ui.transaction.AddTransactionFragment"
+        android:label="Add Transaction"
+        tools:layout="@layout/fragment_add_transaction">
+        <argument
+            android:name="isIncome"
+            android:defaultValue="false"
+            app:argType="boolean" />
+    </fragment>
 </navigation>

@@ -11,7 +11,7 @@ import com.example.dailycash.data.local.entity.BudgetEntity
 import com.example.dailycash.data.local.entity.FixedExpenseEntity
 import com.example.dailycash.data.local.entity.TransactionEntity
 
-@Database(entities = [TransactionEntity::class, FixedExpenseEntity::class, BudgetEntity::class], version = 3, exportSchema = false)
+@Database(entities = [TransactionEntity::class, FixedExpenseEntity::class, BudgetEntity::class], version = 4, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun transactionDao(): TransactionDao
     abstract fun fixedExpenseDao(): FixedExpenseDao

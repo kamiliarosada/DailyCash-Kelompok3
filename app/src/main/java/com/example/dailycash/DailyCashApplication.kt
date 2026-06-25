@@ -9,7 +9,5 @@ class DailyCashApplication : Application() {
         val preferenceManager = PreferenceManager(this)
         // Terapkan pengaturan Dark Mode saat aplikasi dimulai
         preferenceManager.applyDarkMode(preferenceManager.isDarkMode())
-        // Terapkan pengaturan Bahasa saat aplikasi dimulai
-        preferenceManager.applyLanguage(preferenceManager.getLanguage())
     }
 }

@@ -4,9 +4,9 @@
         android:icon="@android:drawable/ic_menu_today"
         android:title="@string/nav_dashboard" />
     <item
-        android:id="@+id/navigation_transactions"
+        android:id="@+id/navigation_statistics"
         android:icon="@android:drawable/ic_menu_agenda"
-        android:title="@string/nav_history" />
+        android:title="@string/nav_stats" />
     <item
         android:id="@+id/navigation_fixed_expenses"
         android:icon="@android:drawable/ic_menu_manage"

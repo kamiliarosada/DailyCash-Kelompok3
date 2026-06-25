@@ -4,13 +4,25 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
-    private const val BASE_URL = "https://zenquotes.io/"
+    private const val QUOTE_URL = "https://zenquotes.io/"
+    private const val CURRENCY_URL = "https://v6.exchangerate-api.com/"
 
-    val instance: QuoteApiService by lazy {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
+    val quoteApi: QuoteApiService by lazy {
+        Retrofit.Builder()
+            .baseUrl(QUOTE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        retrofit.create(QuoteApiService::class.java)
+            .create(QuoteApiService::class.java)
     }
+
+    val currencyApi: CurrencyApiService by lazy {
+        Retrofit.Builder()
+            .baseUrl(CURRENCY_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(CurrencyApiService::class.java)
+    }
+
+    // Keep 'instance' for backward compatibility
+    val instance: QuoteApiService get() = quoteApi
 }

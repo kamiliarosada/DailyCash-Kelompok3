@@ -1,36 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#1A1A1A</color>
+    <!-- Brand Colors - Rich Mocha & Gold Theme -->
+    <color name="primary">#261405</color> <!-- Darkest Mocha -->
+    <color name="primary_light">#4E342E</color> <!-- Rich Chocolate -->
+    <color name="primary_dark">#1A0B00</color>
+
+    <color name="secondary">#C5A059</color> <!-- Warm Gold -->
+    <color name="secondary_light">#E2C58A</color> <!-- Light Gold -->
+    <color name="secondary_container">#FDF5E6</color>
+
+    <!-- Gradient Colors -->
+    <color name="grad_mocha">#3E2723</color>
+    <color name="grad_gold">#C5A059</color>
+
+    <!-- Neutral Colors (Required by Themes) -->
+    <color name="background_light">#FFFBF1</color>
+    <color name="surface_light">#FFFFEF</color>
+    <color name="on_surface_light">#261405</color>
+    <color name="surface_variant_light">#F0EAD6</color>
+    <color name="outline_light">#A67C52</color>
+    <color name="text_hint_light">#8D6E63</color>
+    <color name="text_main">#261405</color>
+    <color name="text_hint">#8D6E63</color>
+
+    <!-- UI Colors -->
+    <color name="vanilla_bg">#FFFBF1</color>
+    <color name="cream_bg">#FFFBF1</color>
+    <color name="cream_surface">#FFFFEF</color>
+    <color name="cream_card">#FFFFF4</color>
+    <color name="accent_orange">#C5A059</color>
+
+    <!-- Semantic Colors -->
+    <color name="income">#43A047</color>
+    <color name="income_green">#43A047</color>
+    <color name="income_bg">#E8F5E9</color>
+
+    <color name="expense">#E53935</color>
+    <color name="expense_red">#E53935</color>
+    <color name="expense_bg">#FFEBEE</color>
+
+    <color name="fixed">#FB8C00</color>
+    <color name="fixed_bg">#FFF3E0</color>
+
+    <!-- Status Badges -->
+    <color name="status_safe_bg">#E8F5E9</color>
+    <color name="status_safe_text">#43A047</color>
+    <color name="status_warning_bg">#FFF8E1</color>
+    <color name="status_warning_text">#F57F17</color>
+    <color name="status_danger_bg">#FFEBEE</color>
+    <color name="status_danger_text">#E53935</color>
+
     <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
 
-    <!-- Luxury Warm Aesthetic Palette -->
-    <color name="primary_brown">#3E2723</color> <!-- Deep Espresso -->
-    <color name="primary_light_brown">#A1887F</color>
-    <color name="primary_dark_brown">#1B0000</color>
-    <color name="luxury_gold">#C5A059</color>
+    <color name="primary_brown">#4E342E</color>
+    <color name="primary_light_brown">#8D6E63</color>
+    <color name="primary_dark_brown">#261405</color>
+    <color name="card_border">#F0EAD6</color>
+    <color name="status_danger">#E53935</color>
+    <color name="keypad_text">#261405</color>
 
-    <color name="cream_bg">#FCF9F7</color> <!-- Ultra Soft Sand -->
-    <color name="cream_surface">#FFFFFF</color>
-    <color name="card_border">#E8E0DD</color>
-
-    <!-- Semantic Colors (Premium Soft) -->
-    <color name="income_green">#27AE60</color> <!-- Emerald Green -->
-    <color name="bg_income_card">#F0F9F4</color>
-    <color name="text_income">#1E8449</color>
-
-    <color name="expense_red">#E74C3C</color> <!-- Crimson Red -->
-    <color name="bg_expense_card">#FDEDEC</color>
-    <color name="text_expense">#B03A2E</color>
-
-    <color name="fixed_orange">#F39C12</color>
-    <color name="bg_fixed_card">#FEF5E7</color>
-    <color name="text_fixed">#AF601A</color>
-
-    <!-- Status Badge Colors -->
-    <color name="status_safe">#27AE60</color> <!-- Bright Emerald for Safe -->
-    <color name="status_warning">#F1C40F</color> <!-- Amber for Warning -->
-    <color name="status_danger">#E74C3C</color> <!-- Red for Danger -->
-
-    <color name="text_main">#2D2422</color>
-    <color name="text_hint">#8D7A77</color>
+    <!-- Essential Category Colors -->
+    <color name="cat_food">#FF7043</color>
+    <color name="cat_fruit">#EC407A</color>
+    <color name="cat_drink">#29B6F6</color>
+    <color name="cat_cake">#AB47BC</color>
+    <color name="cat_noodle">#FBC02D</color>
+    <color name="cat_veg">#66BB6A</color>
+    <color name="cat_coffee">#8D6E63</color>
+    <color name="cat_car">#78909C</color>
+    <color name="cat_bus">#FFA726</color>
+    <color name="cat_plane">#5C6BC0</color>
+    <color name="cat_shoes">#9E9E9E</color>
+    <color name="cat_clothes">#26A69A</color>
+    <color name="cat_income_cash">#9CCC65</color>
+    <color name="cat_income_salary">#5C6BC0</color>
 </resources>

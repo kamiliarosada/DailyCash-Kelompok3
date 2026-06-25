@@ -36,12 +36,12 @@
             android:text="DailyCash"
             android:textColor="@color/primary_dark_brown"
             android:textSize="28sp"
-            android:textStyle="bold" />
+            android:fontFamily="sans-serif-black" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Kelola keuanganmu dengan bijak"
+            android:text="@string/login_desc"
             android:textColor="@color/text_hint"
             android:textSize="14sp" />
 
@@ -66,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_weight="1"
-                android:hint="Email"
+                android:hint="@string/email_hint"
                 app:boxCornerRadiusBottomEnd="12dp"
                 app:boxCornerRadiusBottomStart="12dp"
                 app:boxCornerRadiusTopEnd="12dp"
@@ -100,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_weight="1"
-                android:hint="Password"
+                android:hint="@string/password_hint"
                 app:boxCornerRadiusBottomEnd="12dp"
                 app:boxCornerRadiusBottomStart="12dp"
                 app:boxCornerRadiusTopEnd="12dp"
@@ -123,7 +123,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="44dp"
-                android:text="Ingat Saya"
+                android:text="@string/remember_me"
                 android:textColor="@color/text_main" />
         </RelativeLayout>
 
@@ -132,10 +132,10 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginTop="24dp"
-            android:text="Masuk"
+            android:text="@string/login_button"
             android:textAllCaps="false"
             android:textSize="16sp"
-            android:textStyle="bold"
+            android:fontFamily="sans-serif-black"
             app:cornerRadius="28dp" />
 
         <TextView
@@ -143,9 +143,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Belum punya akun? Daftar sekarang"
+            android:text="@string/to_register"
             android:textColor="@color/primary_brown"
-            android:textStyle="bold" />
+            android:fontFamily="sans-serif-bold" />
 
         <ProgressBar
             android:id="@+id/loginProgressBar"

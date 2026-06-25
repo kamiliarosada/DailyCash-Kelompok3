@@ -25,8 +25,13 @@ class CashViewModel(application: Application) : AndroidViewModel(application) {
             database.transactionDao(),
             database.fixedExpenseDao(),
             database.budgetDao(),
-            RetrofitClient.instance
+            RetrofitClient.quoteApi,
+            RetrofitClient.currencyApi
         )
+    }
+
+    suspend fun convertCurrency(from: String, to: String, amount: Double): Double {
+        return repository.convertCurrency(from, to, amount)
     }
 
     fun getAllTransactions(userId: String) = repository.getAllTransactions(userId)

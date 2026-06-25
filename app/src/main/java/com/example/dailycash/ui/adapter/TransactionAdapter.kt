@@ -29,10 +29,16 @@ class TransactionAdapter(
         holder.binding.tvItemTitle.text = item.title
         
         val prefix = if (item.type == "pemasukan") "+" else "-"
-        holder.binding.tvItemAmount.text = "$prefix Rp ${item.amount}"
+        val formattedAmount = String.format("%,.0f", item.amount)
+        holder.binding.tvItemAmount.text = "$prefix Rp $formattedAmount"
         
         val dateStr = dateFormat.format(Date(item.date))
-        holder.binding.tvItemCategory.text = "${item.category} • $dateStr"
+        if (item.currency != "IDR") {
+            val original = String.format("%,.2f", item.originalAmount)
+            holder.binding.tvItemCategory.text = "${item.category} ($original ${item.currency}) • $dateStr"
+        } else {
+            holder.binding.tvItemCategory.text = "${item.category} • $dateStr"
+        }
 
         // Set icon based on category
         val iconRes = when (item.category.lowercase()) {

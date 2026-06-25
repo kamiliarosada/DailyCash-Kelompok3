@@ -7,6 +7,7 @@ import com.example.dailycash.data.local.dao.TransactionDao
 import com.example.dailycash.data.local.entity.BudgetEntity
 import com.example.dailycash.data.local.entity.FixedExpenseEntity
 import com.example.dailycash.data.local.entity.TransactionEntity
+import com.example.dailycash.data.remote.CurrencyApiService
 import com.example.dailycash.data.remote.QuoteApiService
 import com.example.dailycash.data.remote.QuoteResponse
 
@@ -17,9 +18,33 @@ class CashRepository(
     private val transactionDao: TransactionDao,
     private val fixedExpenseDao: FixedExpenseDao,
     private val budgetDao: BudgetDao,
-    private val quoteApiService: QuoteApiService
+    private val quoteApiService: QuoteApiService,
+    private val currencyApiService: CurrencyApiService
 ) {
     private val firestore = FirebaseFirestore.getInstance()
+
+    suspend fun convertCurrency(from: String, to: String, amount: Double): Double {
+        if (from == to) return amount
+        return try {
+            val apiKey = "006d649987823f6630f9a2e1" 
+            val response = currencyApiService.convertCurrency(apiKey, from, to, amount)
+            android.util.Log.d("CurrencyConvert", "API Success: $amount $from -> ${response.conversion_result} $to")
+            response.conversion_result
+        } catch (e: Exception) {
+            android.util.Log.e("CurrencyConvert", "API Error: ${e.message}")
+            // Hardcoded Fallback rates if API fails
+            val rate = when (from) {
+                "USD" -> 15750.0
+                "EUR" -> 16800.0
+                "JPY" -> 105.0
+                "SGD" -> 11600.0
+                else -> 1.0
+            }
+            val result = amount * rate
+            android.util.Log.d("CurrencyConvert", "Using Fallback: $amount $from -> $result $to")
+            result
+        }
+    }
 
     fun getAllTransactions(userId: String) = transactionDao.getAllTransactions(userId)
 
